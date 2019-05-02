@@ -3,23 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Pecas;
+package AbstractFactory;
 
 import Model.Peca;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 /**
  *
  * @author paulohenrique
  */
-public class Agua extends Peca {
+public abstract class Agua extends Peca{
     
-    public Agua() {
-        super(new ImageIcon("imagens/agua.png"));
+    public Agua(Icon imagem) {
+        super(imagem);
     }
-
-  
     
     
 }

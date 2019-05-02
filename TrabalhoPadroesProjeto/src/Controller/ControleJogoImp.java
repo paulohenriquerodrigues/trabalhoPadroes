@@ -6,7 +6,8 @@
 package Controller;
 
 import Model.Peca;
-import Pecas.Agua;
+import Pecas.FabricaPeca;
+import Pecas.PecaAgua;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,39 +22,41 @@ public class ControleJogoImp implements ControleJogo {
     private Peca[][] tabuleiro;
 
     private List<Observador> observadores = new ArrayList<>();
+    
+    FabricaPeca fabricaPeca = new FabricaPeca();
 
     @Override
     public void inicializar() throws Exception {
         tabuleiro = new Peca[5][5];
-        tabuleiro[0][0] = new Agua();
-        tabuleiro[0][1] = new Agua();
-        tabuleiro[0][2] = new Agua();
-        tabuleiro[0][3] = new Agua();
-        tabuleiro[0][4] = new Agua();
+        tabuleiro[0][0] = new FabricaPeca().criarPecaVitoriaRegiaNormal();
+        tabuleiro[0][1] = new FabricaPeca().criarPecaAgua();
+        tabuleiro[0][2] = new FabricaPeca().criarPecaVitoriaRegiaNormal();
+        tabuleiro[0][3] = new FabricaPeca().criarPecaAgua();
+        tabuleiro[0][4] = new FabricaPeca().criarPecaVitoriaRegiaNormal();
 
-        tabuleiro[1][0] = new Agua();
-        tabuleiro[1][1] = new Agua();
-        tabuleiro[1][2] = new Agua();
-        tabuleiro[1][3] = new Agua();
-        tabuleiro[1][4] = new Agua();
+        tabuleiro[1][0] = new FabricaPeca().criarPecaAgua();
+        tabuleiro[1][1] = new FabricaPeca().criarPecaVitoriaRegiaNormal();
+        tabuleiro[1][2] = new FabricaPeca().criarPecaVitoriaRegiaNormal();
+        tabuleiro[1][3] = new FabricaPeca().criarPecaVitoriaRegiaSapoVermelho();
+        tabuleiro[1][4] = new FabricaPeca().criarPecaAgua();
 
-        tabuleiro[2][0] = new Agua();
-        tabuleiro[2][1] = new Agua();
-        tabuleiro[2][2] = new Agua();
-        tabuleiro[2][3] = new Agua();
-        tabuleiro[2][4] = new Agua();
+        tabuleiro[2][0] = new FabricaPeca().criarPecaVitoriaRegiaNormal();
+        tabuleiro[2][1] = new FabricaPeca().criarPecaVitoriaRegiaNormal();
+        tabuleiro[2][2] = new FabricaPeca().criarPecaAgua();
+        tabuleiro[2][3] = new FabricaPeca().criarPecaVitoriaRegiaNormal();
+        tabuleiro[2][4] = new FabricaPeca().criarPecaVitoriaRegiaNormal();
 
-        tabuleiro[3][0] = new Agua();
-        tabuleiro[3][1] = new Agua();
-        tabuleiro[3][2] = new Agua();
-        tabuleiro[3][3] = new Agua();
-        tabuleiro[3][4] = new Agua();
+        tabuleiro[3][0] = new FabricaPeca().criarPecaAgua();
+        tabuleiro[3][1] = new FabricaPeca().criarPecaVitoriaRegiaNormal();
+        tabuleiro[3][2] = new FabricaPeca().criarPecaVitoriaRegiaSapoAmarelo();
+        tabuleiro[3][3] = new FabricaPeca().criarPecaVitoriaRegiaEscura();
+        tabuleiro[3][4] = new FabricaPeca().criarPecaAgua();
 
-        tabuleiro[4][0] = new Agua();
-        tabuleiro[4][1] = new Agua();
-        tabuleiro[4][2] = new Agua();
-        tabuleiro[4][3] = new Agua();
-        tabuleiro[4][4] = new Agua();
+        tabuleiro[4][0] = new FabricaPeca().criarPecaVitoriaRegiaNormal();
+        tabuleiro[4][1] = new FabricaPeca().criarPecaAgua();
+        tabuleiro[4][2] = new FabricaPeca().criarPecaVitoriaRegiaNormal();
+        tabuleiro[4][3] = new FabricaPeca().criarPecaAgua();
+        tabuleiro[4][4] = new FabricaPeca().criarPecaVitoriaRegiaNormal();
 
     }
 
