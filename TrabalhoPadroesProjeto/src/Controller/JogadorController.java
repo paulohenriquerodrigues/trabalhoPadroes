@@ -94,5 +94,9 @@ public class JogadorController {
     public void setCor(String cor) {
         Jogador.getInstance().setCor(cor);
     }
+    
+    public String getCor(){
+    return Jogador.getInstance().getCor();
+    }
 
 }

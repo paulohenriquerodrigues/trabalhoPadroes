@@ -232,6 +232,15 @@ public class ConfigJogador extends javax.swing.JFrame implements JogadorObserver
 
     private void jButtonJogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJogarActionPerformed
         jogador.setCor(jComboBoxCor.getSelectedItem().toString());
+        Tabuleiro tabuleiro;
+        try {
+            tabuleiro = new Tabuleiro();
+            tabuleiro.setVisible(true);
+            this.setVisible(false);
+        } catch (Exception ex) {
+            Logger.getLogger(ConfigJogador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
 
     }//GEN-LAST:event_jButtonJogarActionPerformed
 

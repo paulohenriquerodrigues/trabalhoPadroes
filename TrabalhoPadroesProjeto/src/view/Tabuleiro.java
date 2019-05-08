@@ -8,6 +8,8 @@ package view;
 import Controller.ControleJogo;
 import Controller.ControleJogoImp;
 import Controller.FlorController;
+import Controller.FlorObserver;
+import Controller.JogadorController;
 import Controller.Observador;
 import Controller.PontuacaoController;
 import Controller.PontuacaoObserver;
@@ -32,9 +34,9 @@ import javax.swing.table.DefaultTableCellRenderer;
  *
  * @author paulohenrique
  */
-public class Tabuleiro2 extends JFrame implements Observador, PontuacaoObserver {
+public class Tabuleiro extends JFrame implements Observador, PontuacaoObserver, FlorObserver {
 
-   
+  
     
 
     class TabuleiroTableModel extends AbstractTableModel {
@@ -119,21 +121,28 @@ public class Tabuleiro2 extends JFrame implements Observador, PontuacaoObserver 
 
     private ControleJogo controle;
     private PontuacaoController pontuacaoControle;
+    private JogadorController jogador;
     private FlorController controleFlor;
+    
     private JTable tabuleiro;
     private JTable pontuacoes;
+    JPanel jPanelFlores;
 
-    public Tabuleiro2() throws Exception {
+    public Tabuleiro() throws Exception {
         this.controle = new ControleJogoImp();
         this.controle.inicializar();
         this.controle.addObservador(this);
+        
+        
+        this.jogador = new JogadorController();
         
         pontuacaoControle = new PontuacaoController();
         pontuacaoControle.criarPontuacao();
         pontuacaoControle.addObservador(this);
 
-        controleFlor = new FlorController();
-        controleFlor.addFlores("Amarelo");
+        this.controleFlor = new FlorController();
+        this.controleFlor.addObservador(this);
+        this.controleFlor.addFlores(this.jogador.getCor());
 
         setTitle("Haru Ichiban");
         setLocationRelativeTo(null);
@@ -166,15 +175,9 @@ public class Tabuleiro2 extends JFrame implements Observador, PontuacaoObserver 
         pontuacao.add(pontuacoes);
         
 
-        JPanel jPanelFlores = new JPanel();
+        jPanelFlores = new JPanel();
         jPanelFlores.setBackground(Color.BLUE);
-        for (int i = 0; i < controleFlor.getFloresAmarelas().size(); i++) {
-            JButton b = new JButton();
-            b.setIcon(controleFlor.getFlorAmarela(i).getImagem());
-            b.setText(String.valueOf(controleFlor.getFlorAmarela(i).getValor()));
-            jPanelFlores.add(b);
-
-        }
+        
 
         // criar o tabuleiro e seus componentes
         JPanel JPanelTabuleiro = new JPanel();
@@ -246,13 +249,29 @@ public class Tabuleiro2 extends JFrame implements Observador, PontuacaoObserver 
     @Override
     public void criarPontuacao() {
     
-        
-        
     }
+    
+      @Override
+    public void addFlores(int i) {
+//
+//            JButton b = new JButton();
+//            if("Amarelo".equals(jogador.getCor())){    
+//            b.setIcon(controleFlor.getFlorAmarela(i).getImagem());
+//            b.setText(String.valueOf(controleFlor.getFlorAmarela(i).getValor()));
+//                jPanelFlores.add(b);
+//            }else{
+//            b.setIcon(controleFlor.getFlorVermelha(i).getImagem());
+//            b.setText(String.valueOf(controleFlor.getFlorVermelha(i).getValor()));
+//            jPanelFlores.add(b);
+//            }
+        }  
+    
+
+   
 
 
     public static void main(String[] args) throws Exception {
-        Tabuleiro2 t = new Tabuleiro2();
+        Tabuleiro t = new Tabuleiro();
         t.setVisible(true);
     }
 
