@@ -5,9 +5,10 @@
  */
 package Controller;
 
+import Command.CommandInvoker;
+import Command.MovimentarPecaCommand;
 import Model.Peca;
 import Pecas.FabricaPeca;
-import Pecas.PecaAgua;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +21,18 @@ import javax.swing.Icon;
 public class ControleJogoImp implements ControleJogo {
 
     private Peca[][] tabuleiro;
-
     private List<Observador> observadores = new ArrayList<>();
+    private int tecla;
+    private MovimentoPeca movimento;
+    private CommandInvoker inv = new CommandInvoker();
+
     
     FabricaPeca fabricaPeca = new FabricaPeca();
+    
+    @Override
+    public Peca getPecaTabuleiro(int x, int y){
+    return tabuleiro[x][y];
+    }
 
     @Override
     public void inicializar() throws Exception {
@@ -67,12 +76,73 @@ public class ControleJogoImp implements ControleJogo {
 
     @Override
     public void pressTecla(int keyCode) throws Exception {
-
+        this.tecla = keyCode;
     }
 
     @Override
     public void run() throws Exception {
+         Thread t = new Thread() {
 
+            @Override
+            public void run() {
+               
+                try {
+                    int x = 0;
+                    int y = 1;
+
+                    Peca pecaAnterior = null;
+
+                    while (true) {
+                        // lerInputs
+                        inv.add(new MovimentarPecaCommand(movimento, pecaAnterior, x, y));
+                        inv.execute();
+
+                        switch (tecla) {
+                            case 37:
+                                movimentoHer.vaiParaEsquerda(tabuleiro[x - 1][y]);
+                                break;
+                            case 38:
+                                movimentoHeroi.vaiParaCima(tabuleiro[x][y - 1]);
+                                break;
+                            case 39:
+                                movimentoHeroi.vaiParaDireita(tabuleiro[x + 1][y]);
+                                break;
+                            case 40:
+                                movimentoHeroi.vaiParaBaixo(tabuleiro[x][y + 1]);
+                                break;
+                        }
+                        tecla = 0;
+
+                        // mudar a posicao do heroi
+                        if (movimentoHeroi.getX() != 0) {
+                            Peca p = tabuleiro[x + movimentoHeroi.getX()][y];
+                            tabuleiro[x + movimentoHeroi.getX()][y] = movimentoHeroi.getPeca();
+                            tabuleiro[x][y] = pecaAnterior;
+                            pecaAnterior = p;
+                            x = x + movimentoHeroi.getX();
+                        } else {
+                            if (movimentoHeroi.getY() != 0) {
+                                Peca p = tabuleiro[x][y + movimentoHeroi.getY()];
+                                tabuleiro[x][y + movimentoHeroi.getY()] = movimentoHeroi.getPeca();
+                                tabuleiro[x][y] = pecaAnterior;
+                                pecaAnterior = p;
+                                y = y + movimentoHeroi.getY();
+                            }
+                        }
+
+                        notificarMudancaTabuleiro();
+
+                        Thread.sleep(100); // soh para dar um tempinho
+                    }
+                } catch (Exception e) {
+
+                    notificarFimJogo(e.toString());
+                }
+            }
+        };
+        t.start();
+
+        notificarIniciouJogo();
     }
 
     @Override

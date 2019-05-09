@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Peca;
 import javax.swing.Icon;
 
 public interface ControleJogo {
@@ -7,6 +8,8 @@ public interface ControleJogo {
     void inicializar() throws Exception;
 
     Icon getPeca(int col, int row) throws Exception;
+    
+    Peca getPecaTabuleiro(int col, int row) throws Exception;
 
     void pressTecla(int keyCode) throws Exception;
 
