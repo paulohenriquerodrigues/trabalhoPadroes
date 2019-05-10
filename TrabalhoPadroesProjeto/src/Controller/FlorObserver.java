@@ -10,6 +10,7 @@ package Controller;
  * @author paulohenrique
  */
 public interface FlorObserver {
-    void addFlores(int i);
+    void addFlores(int i, int index);
+    void removerFloresJPanel();
     
 }

@@ -21,7 +21,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -40,6 +39,8 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author paulohenrique
  */
 public class Tabuleiro extends JFrame implements Observador, PontuacaoObserver, FlorObserver {
+
+    
 
     class TabuleiroTableModel extends AbstractTableModel {
 
@@ -127,7 +128,8 @@ public class Tabuleiro extends JFrame implements Observador, PontuacaoObserver, 
 
     private JTable tabuleiro;
     private JTable pontuacoes;
-    JPanel jPanelFlores;
+
+    private JPanel jPanelFlores;
 
     public Tabuleiro() throws Exception {
         this.controle = new ControleJogoImp();
@@ -144,11 +146,13 @@ public class Tabuleiro extends JFrame implements Observador, PontuacaoObserver, 
         this.controleFlor.addObservador(this);
         this.controleFlor.addFlores(this.jogador.getCor());
 
+        initComponents();
+        this.controleFlor.carregaBotaoFlores();
+
         setTitle("Haru Ichiban");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        initComponents();
         pack();
 
     }
@@ -172,9 +176,6 @@ public class Tabuleiro extends JFrame implements Observador, PontuacaoObserver, 
         pontuacoes.setDefaultRenderer(Object.class, new PontuacaoRenderer());
 
         pontuacao.add(pontuacoes);
-
-        jPanelFlores = new JPanel();
-        jPanelFlores.setBackground(Color.BLUE);
 
         // criar o tabuleiro e seus componentes
         JPanel JPanelTabuleiro = new JPanel();
@@ -209,24 +210,28 @@ public class Tabuleiro extends JFrame implements Observador, PontuacaoObserver, 
             }
 
         });
-        
+
         tabuleiro.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            if (e.getClickCount() == 2) {
-            int linha = tabuleiro.getSelectedRow();
-            int coluna = tabuleiro.getSelectedColumn();
-                try {
-                    System.out.println(controle.getPecaTabuleiro(coluna, linha).getClass());
-                } catch (Exception ex) {
-                    Logger.getLogger(Tabuleiro.class.getName()).log(Level.SEVERE, null, ex);
+                if (e.getClickCount() == 2) {
+                    int linha = tabuleiro.getSelectedRow();
+                    int coluna = tabuleiro.getSelectedColumn();
+                    try {
+                        System.out.println(controle.getPecaTabuleiro(coluna, linha).getClass());
+                    } catch (Exception ex) {
+                        Logger.getLogger(Tabuleiro.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-            }}    
+            }
         });
 
         JPanelTabuleiro.add(jardineiroVermelho);
         JPanelTabuleiro.add(tabuleiro);
         JPanelTabuleiro.add(jardineiroAmarelo);
+
+        jPanelFlores = new JPanel();
+        jPanelFlores.setBackground(Color.BLUE);
 
         painel.add(pontuacao, BorderLayout.NORTH);
         painel.add(JPanelTabuleiro);
@@ -257,18 +262,33 @@ public class Tabuleiro extends JFrame implements Observador, PontuacaoObserver, 
     }
 
     @Override
-    public void addFlores(int i) {
-//
-//            JButton b = new JButton();
-//            if("Amarelo".equals(jogador.getCor())){    
-//            b.setIcon(controleFlor.getFlorAmarela(i).getImagem());
-//            b.setText(String.valueOf(controleFlor.getFlorAmarela(i).getValor()));
-//                jPanelFlores.add(b);
-//            }else{
-//            b.setIcon(controleFlor.getFlorVermelha(i).getImagem());
-//            b.setText(String.valueOf(controleFlor.getFlorVermelha(i).getValor()));
-//            jPanelFlores.add(b);
-//            }
+    public void addFlores(int i, int index) {
+        
+        JButton b = new JButton();
+        b.setIcon(controleFlor.getFlor(index).getImagem());
+        b.setText(String.valueOf(controleFlor.getFlor(index).getValor()));
+
+        b.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    controleFlor.usarFlor(Integer.parseInt(b.getText()));
+                }
+            }
+
+        });
+
+        jPanelFlores.add(b);
+        
+    }
+    
+    @Override
+    public void removerFloresJPanel() {
+        jPanelFlores.removeAll();
+        jPanelFlores.repaint();
+        controleFlor.carregaBotaoFlores();
+        jPanelFlores.revalidate();
+        ;
     }
 
     public static void main(String[] args) throws Exception {

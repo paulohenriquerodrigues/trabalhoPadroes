@@ -18,8 +18,7 @@ import javax.swing.ImageIcon;
 public class FlorController {
 
     private List<FlorObserver> observadores = new ArrayList<>();
-    private List<Flores> floresAmarelas = new ArrayList<>();
-    private List<Flores> floresVermelhas = new ArrayList<>();
+    private List<Flores> flores = new ArrayList<>();
 
     int[] valores = new int[8];
 
@@ -37,54 +36,65 @@ public class FlorController {
                 }
             }
             if (!existe) {
-                if (cor == "Amarelo") {
+                if ("Amarelo".equals(cor)) {
                     Flores flor = new Flores(cor, valores[i], new ImageIcon("imagens/rosa-amarela.png"));
-                    floresAmarelas.add(flor);
+                    flores.add(flor);
                 } else {
                     Flores flor = new Flores(cor, valores[i], new ImageIcon("imagens/rosa-vermelha.png"));
-                    floresVermelhas.add(flor);
-                    
+                    flores.add(flor);
                 }
                 i++;
             }
         }
-        if("Amarelo".equals(cor)){
-        for(int z = 0; z < floresAmarelas.size(); z++){
-            System.out.println(z);
-        }
-        }else{
-        for(int z = 0; z < floresVermelhas.size(); z++){
-        addFloresOBS(z);
-        }
+    }
+
+    public void carregaBotaoFlores() {
+        if (flores.size() > 2) {
+            for (int i = 0; i < 3; i++) {
+                addFloresOBS(flores.get(i).getValor(), i);
+            }
+        } else {
+            for (int i = 0; i < flores.size(); i++) {
+                addFloresOBS(flores.get(i).getValor(), i);
+            }
         }
     }
 
-    public List<Flores> getFloresAmarelas() {
-        return floresAmarelas;
+    public List<Flores> getFlores() {
+        return flores;
     }
 
-    public List<Flores> getFloresVermelhas() {
-        return floresVermelhas;
-    }
-
-    public Flores getFlorAmarela(int i) {
-        Flores f = floresAmarelas.get(i);
-        return f;
-    }
-    
-    public Flores getFlorVermelha(int i) {
-        Flores f = floresVermelhas.get(i);
+    public Flores getFlor(int i) {
+        Flores f = flores.get(i);
         return f;
     }
 
-    public void addFloresOBS(int i) {
-        for (FlorObserver obs : observadores) {
-             obs.addFlores(i);
-        }
+    public void addFloresOBS(int i, int index) {
+        observadores.forEach((obs) -> {
+            obs.addFlores(i, index);
+        });
+    }
+
+    public void removerFloresJPanel() {
+        observadores.forEach((obs) -> {
+            obs.removerFloresJPanel();
+        });
     }
 
     public void addObservador(FlorObserver obs) {
         observadores.add(obs);
+    }
+
+    public void usarFlor(int valor) {
+        for (int i = 0; i < flores.size(); i++) {
+            if (valor == flores.get(i).getValor()) {
+                flores.remove(i);
+                i = 10;
+
+            }
+        }
+        removerFloresJPanel();
+
     }
 
 }
