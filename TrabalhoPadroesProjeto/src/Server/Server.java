@@ -17,7 +17,7 @@ public class Server {
             ServerSocket serverSocket = new ServerSocket(56000);
             serverSocket.setReuseAddress(true);
             while (true){
-                System.out.println("Aguardando conecxão...");
+                System.out.println("Aguardando conexão...");
                 Socket socket = serverSocket.accept();
                 SocketThread thread = new SocketThread(socket);
                 thread.start();

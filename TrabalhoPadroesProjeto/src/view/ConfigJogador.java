@@ -145,6 +145,11 @@ public class ConfigJogador extends javax.swing.JFrame implements JogadorObserver
         jLabelCor.setText("Selecione a Cor");
 
         jComboBoxCor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione" }));
+        jComboBoxCor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxCorActionPerformed(evt);
+            }
+        });
 
         jButtonJogar.setBackground(new java.awt.Color(0, 204, 51));
         jButtonJogar.setText("Jogar");
@@ -250,6 +255,10 @@ public class ConfigJogador extends javax.swing.JFrame implements JogadorObserver
         jogador.verificaCor();
 
     }//GEN-LAST:event_jButtonConfirmaActionPerformed
+
+    private void jComboBoxCorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxCorActionPerformed
 
     /**
      * @param args the command line arguments

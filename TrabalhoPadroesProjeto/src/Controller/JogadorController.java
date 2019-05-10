@@ -11,6 +11,7 @@ import Model.MensagemTipo;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
@@ -40,8 +41,8 @@ public class JogadorController {
     public void verificaCor() {
         try {
 
-            Socket socket = new Socket(Jogador.getInstance().getIpOutroJogador(), 56000);
-            socket.setSoTimeout(1000);
+            Socket socket = new Socket();
+            socket.connect(new InetSocketAddress(Jogador.getInstance().getIpOutroJogador(), 56000), 1000);
             ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
 
@@ -69,8 +70,8 @@ public class JogadorController {
             socket.close();
         } catch (SocketTimeoutException ex) {
             System.out.println("tempo");
+            observadorCor(null);
         } catch (SocketException ex) {
-
             observadorCor(null);
 
         } catch (IOException ex) {

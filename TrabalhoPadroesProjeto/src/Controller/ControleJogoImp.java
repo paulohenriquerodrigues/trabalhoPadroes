@@ -99,50 +99,31 @@ public class ControleJogoImp implements ControleJogo {
 
                         switch (tecla) {
                             case 37:
-                                movimentoHer.vaiParaEsquerda(tabuleiro[x - 1][y]);
+                                
                                 break;
                             case 38:
-                                movimentoHeroi.vaiParaCima(tabuleiro[x][y - 1]);
+                               
                                 break;
                             case 39:
-                                movimentoHeroi.vaiParaDireita(tabuleiro[x + 1][y]);
+                                
                                 break;
                             case 40:
-                                movimentoHeroi.vaiParaBaixo(tabuleiro[x][y + 1]);
+                                
                                 break;
                         }
                         tecla = 0;
 
-                        // mudar a posicao do heroi
-                        if (movimentoHeroi.getX() != 0) {
-                            Peca p = tabuleiro[x + movimentoHeroi.getX()][y];
-                            tabuleiro[x + movimentoHeroi.getX()][y] = movimentoHeroi.getPeca();
-                            tabuleiro[x][y] = pecaAnterior;
-                            pecaAnterior = p;
-                            x = x + movimentoHeroi.getX();
-                        } else {
-                            if (movimentoHeroi.getY() != 0) {
-                                Peca p = tabuleiro[x][y + movimentoHeroi.getY()];
-                                tabuleiro[x][y + movimentoHeroi.getY()] = movimentoHeroi.getPeca();
-                                tabuleiro[x][y] = pecaAnterior;
-                                pecaAnterior = p;
-                                y = y + movimentoHeroi.getY();
-                            }
-                        }
-
-                        notificarMudancaTabuleiro();
+                        
 
                         Thread.sleep(100); // soh para dar um tempinho
                     }
                 } catch (Exception e) {
 
-                    notificarFimJogo(e.toString());
                 }
             }
         };
         t.start();
 
-        notificarIniciouJogo();
     }
 
     @Override
