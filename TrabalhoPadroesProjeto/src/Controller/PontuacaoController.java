@@ -45,4 +45,9 @@ public class PontuacaoController implements PontuacaoObserver {
     return (pontuacoes[row][col] == null ? null : String.valueOf(pontuacoes[row][col].getPontuacaoVisual()));
     }
     
+    public void modificaPontuacao(int pontos){
+        
+    
+    }
+    
 }

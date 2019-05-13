@@ -134,6 +134,7 @@ public class Tabuleiro extends JFrame implements Observador, PontuacaoObserver, 
     public Tabuleiro() throws Exception {
         this.controle = new ControleJogoImp();
         this.controle.inicializar();
+       
         this.controle.addObservador(this);
 
         this.jogador = new JogadorController();
@@ -163,6 +164,7 @@ public class Tabuleiro extends JFrame implements Observador, PontuacaoObserver, 
         painel.setLayout(new BorderLayout());
 
         JPanel pontuacao = new JPanel();
+      
         pontuacoes = new JTable();
         pontuacoes.setModel(new PontuacaoTableModel());
         for (int x = 0; x < pontuacoes.getColumnModel().getColumnCount(); x++) {
@@ -174,8 +176,9 @@ public class Tabuleiro extends JFrame implements Observador, PontuacaoObserver, 
         pontuacoes.setShowGrid(false);
         pontuacoes.setIntercellSpacing(new Dimension(1, 1));
         pontuacoes.setDefaultRenderer(Object.class, new PontuacaoRenderer());
-
+        
         pontuacao.add(pontuacoes);
+        
 
         // criar o tabuleiro e seus componentes
         JPanel JPanelTabuleiro = new JPanel();
@@ -203,7 +206,11 @@ public class Tabuleiro extends JFrame implements Observador, PontuacaoObserver, 
             @Override
             public void keyReleased(KeyEvent e) {
                 try {
-                    controle.pressTecla(e.getKeyCode());
+                    int linha = tabuleiro.getSelectedRow();
+                    int coluna = tabuleiro.getSelectedColumn();
+                    controle.pressTecla(e.getKeyCode(), coluna, linha);
+                    System.out.println(linha);
+                    System.out.println(e.getKeyCode());
                 } catch (Exception e1) {
                     JOptionPane.showMessageDialog(null, e1.toString());
                 }
@@ -219,6 +226,7 @@ public class Tabuleiro extends JFrame implements Observador, PontuacaoObserver, 
                     int coluna = tabuleiro.getSelectedColumn();
                     try {
                         System.out.println(controle.getPecaTabuleiro(coluna, linha).getClass());
+                         
                     } catch (Exception ex) {
                         Logger.getLogger(Tabuleiro.class.getName()).log(Level.SEVERE, null, ex);
                     }
