@@ -23,6 +23,8 @@ public class ControleJogoImp implements ControleJogo {
     
     private int x;
     private int y;
+    private int coluna;
+    private int linha;
     private Peca[][] tabuleiro;
     private List<Observador> observadores = new ArrayList<>();
     private int tecla;
@@ -78,9 +80,9 @@ public class ControleJogoImp implements ControleJogo {
     }
 
     @Override
-    public void pressTecla(int keyCode,int x, int y) throws Exception {
+    public void pressTecla(int keyCode) throws Exception {
         this.tecla = keyCode;
-        Peca peca = getPecaTabuleiro(x, y);
+        Peca peca = getPecaTabuleiro(coluna, linha);
         switch (tecla) {
                             case 37:
                                 
@@ -88,15 +90,15 @@ public class ControleJogoImp implements ControleJogo {
                             case 38:
                               if(peca != null){  
                                movimento.setPeca(peca);
-                               inv.adicionar(new MoverParaCima(movimento, y));
-                               System.out.println("entrou");
-                               inv.execute(new MoverParaCima(movimento, y));
-                               Peca p = tabuleiro[x][y + movimento.getY()];
-                               tabuleiro[x][movimento.getY()] = movimento.getPeca();
+                               inv.adicionar(new MoverParaCima(movimento, linha));
+                               inv.execute(new MoverParaCima(movimento, linha));
+                               Peca p = tabuleiro[coluna][y + movimento.getY()];
+                               tabuleiro[coluna][movimento.getY()] = movimento.getPeca();
                                
-                               tabuleiro [x][y] = fabricaPeca.criarPecaAgua();
+                               tabuleiro [coluna][linha] = fabricaPeca.criarPecaAgua();
                                peca = null;
                                notificarMudancaTabuleiro();
+                               zerarLinhaColuna();
                                
                               }
                                 break;
@@ -109,57 +111,6 @@ public class ControleJogoImp implements ControleJogo {
                         }
     }
 
-    @Override
-    public void run() throws Exception {
-         Thread t = new Thread() {
-
-            @Override
-            public void run() {
-               
-                try {
-                    int x = 0;
-                    int y = 1;
-
-                    Peca pecaAnterior = null;
-                    
-              
-
-                    while (true) {
-                        // lerInputs
-                       movimento.zerarDeslocamento();
-
-                        switch (tecla) {
-                            case 37:
-                                
-                                break;
-                            case 38:
-//                               movimento.setPeca(getPecaTabuleiro(x, y));
-//                               inv.add(new MoverParaCima(movimento));
-                                System.out.println("entrou");
-//                               inv.execute();
-                                break;
-                            case 39:
-                                
-                                break;
-                            case 40:
-                                
-                                break;
-                        }
-                        tecla = 0;
-
-                        
-                        notificarMudancaTabuleiro();
-                        Thread.sleep(100); // soh para dar um tempinho
-                    }
-                } catch (Exception e) {
-
-                }
-            }
-        };
-        t.start();
-        
-
-    }
     @Override
     public void addObservador(Observador obs) {
         observadores.add(obs);
@@ -190,6 +141,17 @@ public class ControleJogoImp implements ControleJogo {
     @Override
     public void setTipoHeroi(String tipoHeroi) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public void zerarLinhaColuna(){
+        setY(0);
+        setX(0);
+    }
+    
+    @Override
+    public void colunaLinhaSelecionada(int coluna, int linha){
+    this.linha = linha;
+    this.coluna = coluna;
     }
     
     

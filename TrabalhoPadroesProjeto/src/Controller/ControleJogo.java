@@ -11,9 +11,9 @@ public interface ControleJogo {
     
     Peca getPecaTabuleiro(int col, int row) throws Exception;
 
-    void pressTecla(int keyCode,int x, int y) throws Exception;
-
-    void run() throws Exception;
+    void pressTecla(int keyCode) throws Exception;
+    
+    void colunaLinhaSelecionada(int coluna, int linha);
 
     void setTipoHeroi(String tipoHeroi) throws Exception;
 

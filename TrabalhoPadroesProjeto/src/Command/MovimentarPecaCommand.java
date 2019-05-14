@@ -46,8 +46,7 @@ public class MovimentarPecaCommand {
     
 
     public void moverCima(Peca peca, int y){
-        setY(y--);
-        System.out.println(getY());
+        setY(y-1);
     }
     
     public void zerarDeslocamento() {
