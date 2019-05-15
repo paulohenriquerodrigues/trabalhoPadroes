@@ -15,8 +15,6 @@ public interface ControleJogo {
     
     void colunaLinhaSelecionada(int coluna, int linha);
 
-    void setTipoHeroi(String tipoHeroi) throws Exception;
-
     void addObservador(Observador obs);
 
 }

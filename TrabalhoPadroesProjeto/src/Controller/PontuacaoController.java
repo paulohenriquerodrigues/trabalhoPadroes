@@ -5,6 +5,8 @@
  */
 package Controller;
 
+import Builder.Tabuleiro;
+import Builder.TabuleiroPontuacao;
 import Model.Pontuacao;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +18,8 @@ import java.util.List;
 public class PontuacaoController implements PontuacaoObserver {
 
     private List<PontuacaoObserver> observadores = new ArrayList<>();
-
+    
+    private Tabuleiro tabuleiroBuilder = new TabuleiroPontuacao();
     private Pontuacao [][] pontuacoes;
  
     
@@ -26,7 +29,9 @@ public class PontuacaoController implements PontuacaoObserver {
 
     @Override
     public void criarPontuacao() {
-        pontuacoes = new Pontuacao[1][11];
+        tabuleiroBuilder.criarTabuleiro();
+        pontuacoes = tabuleiroBuilder.retornaTabuleiroPontuacao();
+        
         for (int i = 0; i < 11; i++) {
             Pontuacao p = new Pontuacao();
             if (i <= 5) {

@@ -5,6 +5,8 @@
  */
 package Controller;
 
+import Builder.Tabuleiro;
+import Builder.TabuleiroJogo;
 import Command.CommandInvoker;
 import Command.MoverParaCima;
 import Command.MovimentarPecaCommand;
@@ -25,9 +27,13 @@ public class ControleJogoImp implements ControleJogo {
     private int y;
     private int coluna;
     private int linha;
-    private Peca[][] tabuleiro;
-    private List<Observador> observadores = new ArrayList<>();
     private int tecla;
+    
+    private Peca[][] tabuleiro;
+    Tabuleiro tabuleiroBuilder = new TabuleiroJogo();
+    
+    private List<Observador> observadores = new ArrayList<>();
+    
     private MovimentarPecaCommand movimento = new MovimentarPecaCommand();
     private CommandInvoker inv = new CommandInvoker();
 
@@ -41,7 +47,10 @@ public class ControleJogoImp implements ControleJogo {
 
     @Override
     public void inicializar() throws Exception {
-        tabuleiro = new Peca[5][5];
+        
+        tabuleiroBuilder.criarTabuleiro();
+        tabuleiro = tabuleiroBuilder.retornaTabuleiroPeca();
+        
         tabuleiro[0][0] = new FabricaPeca().criarPecaVitoriaRegiaNormal();
         tabuleiro[0][1] = new FabricaPeca().criarPecaAgua();
         tabuleiro[0][2] = new FabricaPeca().criarPecaVitoriaRegiaNormal();
@@ -136,11 +145,6 @@ public class ControleJogoImp implements ControleJogo {
 
     public void setY(int y) {
         this.y = y;
-    }
-
-    @Override
-    public void setTipoHeroi(String tipoHeroi) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     public void zerarLinhaColuna(){

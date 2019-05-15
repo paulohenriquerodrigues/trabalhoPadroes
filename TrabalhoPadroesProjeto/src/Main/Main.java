@@ -6,7 +6,7 @@
 package Main;
 
 import Server.Server;
-import view.ConfigJogador;
+import view.ConfigJogadorView;
 
 /**
  *
@@ -14,7 +14,7 @@ import view.ConfigJogador;
  */
 public class Main {
     public static void main(String[] args) {
-        ConfigJogador tela = new ConfigJogador();
+        ConfigJogadorView tela = new ConfigJogadorView();
         tela.setVisible(true);
         Server server = new Server();
         server.execute();

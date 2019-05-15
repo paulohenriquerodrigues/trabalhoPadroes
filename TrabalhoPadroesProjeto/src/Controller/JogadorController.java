@@ -40,7 +40,6 @@ public class JogadorController {
 
     public void verificaCor() {
         try {
-
             Socket socket = new Socket();
             socket.connect(new InetSocketAddress(Jogador.getInstance().getIpOutroJogador(), 56000), 1000);
             ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
@@ -53,18 +52,15 @@ public class JogadorController {
             Object obj;
             obj = input.readObject();
             Mensagem msgRetorno = (Mensagem) obj;
-
-            switch (msgRetorno.getMessage().toString()) {
-                case "Amarelo":
-                    observadorCor("Amarelo");
-                    break;
-                case "Vermelho":
-                    observadorCor("Vermelho");
-                    break;
-
-                default:
-                    observadorCor(null);
+            System.out.println(msgRetorno.getMessage().toString());
+            if (msgRetorno.getMessage().equals("Amarelo")) {
+                observadorCor("Amarelo");
+            } else if (msgRetorno.getMessage().equals("Vermelho")) {
+                observadorCor("Vermelho");
+            } else {
+                observadorCor(null);
             }
+
             output.close();
             input.close();
             socket.close();
@@ -75,9 +71,9 @@ public class JogadorController {
             observadorCor(null);
 
         } catch (IOException ex) {
-            Logger.getLogger(Teste.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JogadorController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Teste.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JogadorController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -95,9 +91,9 @@ public class JogadorController {
     public void setCor(String cor) {
         Jogador.getInstance().setCor(cor);
     }
-    
-    public String getCor(){
-    return Jogador.getInstance().getCor();
+
+    public String getCor() {
+        return Jogador.getInstance().getCor();
     }
 
 }

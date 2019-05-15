@@ -7,7 +7,6 @@ package view;
 
 import Controller.JogadorController;
 import Controller.JogadorObserver;
-import Controller.Teste;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,12 +15,11 @@ import java.util.logging.Logger;
  *
  * @author paulohenrique
  */
-public class ConfigJogador extends javax.swing.JFrame implements JogadorObserver {
+public class ConfigJogadorView extends javax.swing.JFrame implements JogadorObserver {
 
     private JogadorController jogador;
-    private Teste teste;
 
-    public ConfigJogador() {
+    public ConfigJogadorView() {
         initComponents();
         this.setLocationRelativeTo(null);
         jComboBoxCor.setEnabled(false);
@@ -240,19 +238,18 @@ public class ConfigJogador extends javax.swing.JFrame implements JogadorObserver
         System.out.println(jComboBoxCor.getSelectedItem().toString());
         
         try {
-            Tabuleiro tabuleiro;
-            tabuleiro = new Tabuleiro();
+            TabuleiroView tabuleiro;
+            tabuleiro = new TabuleiroView();
             tabuleiro.setVisible(true);
             this.setVisible(false);
         } catch (Exception ex) {
-            Logger.getLogger(ConfigJogador.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConfigJogadorView.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 
     }//GEN-LAST:event_jButtonJogarActionPerformed
 
     private void jButtonConfirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmaActionPerformed
-
         jogador.AddJogador(jTextFieldNome.getText(), jTextFieldIP.getText(), null);
         jogador.verificaCor();
 
@@ -279,14 +276,18 @@ public class ConfigJogador extends javax.swing.JFrame implements JogadorObserver
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConfigJogador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConfigJogadorView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConfigJogador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConfigJogadorView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConfigJogador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConfigJogadorView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConfigJogador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConfigJogadorView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -295,7 +296,7 @@ public class ConfigJogador extends javax.swing.JFrame implements JogadorObserver
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConfigJogador().setVisible(true);
+                new ConfigJogadorView().setVisible(true);
             }
         });
     }
