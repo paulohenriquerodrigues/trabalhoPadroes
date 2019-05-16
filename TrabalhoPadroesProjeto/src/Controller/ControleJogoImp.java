@@ -8,7 +8,10 @@ package Controller;
 import Builder.Tabuleiro;
 import Builder.TabuleiroJogo;
 import Command.CommandInvoker;
+import Command.MoverParaBaixo;
 import Command.MoverParaCima;
+import Command.MoverParaDireita;
+import Command.MoverParaEsquerda;
 import Command.MovimentarPecaCommand;
 import Model.Peca;
 import Model.Rodada;
@@ -94,7 +97,19 @@ public class ControleJogoImp implements ControleJogo {
         Peca peca = getPecaTabuleiro(coluna, linha);
         switch (tecla) {
             case 37:
+                if (peca != null) {
+                    movimento.setPeca(peca);
+                    inv.adicionar(new MoverParaEsquerda(movimento, coluna));
+                    inv.execute(new MoverParaEsquerda(movimento, coluna));
+                    Peca p = tabuleiro[x + movimento.getX()][linha];
+                    tabuleiro[movimento.getX()][linha] = movimento.getPeca();
 
+                    tabuleiro[coluna][linha] = fabricaPeca.criarPecaAgua();
+                    peca = null;
+                    notificarMudancaTabuleiro();
+                    zerarLinhaColuna();
+
+                }
                 break;
             case 38:
                 if (peca != null) {
@@ -112,10 +127,33 @@ public class ControleJogoImp implements ControleJogo {
                 }
                 break;
             case 39:
+                if (peca != null) {
+                    movimento.setPeca(peca);
+                    inv.adicionar(new MoverParaDireita(movimento, coluna));
+                    inv.execute(new MoverParaDireita(movimento, coluna));
+                    Peca p = tabuleiro[x + movimento.getX()][linha];
+                    tabuleiro[movimento.getX()][linha] = movimento.getPeca();
 
+                    tabuleiro[coluna][linha] = fabricaPeca.criarPecaAgua();
+                    peca = null;
+                    notificarMudancaTabuleiro();
+                    zerarLinhaColuna();
+
+                }
                 break;
             case 40:
+                if (peca != null) {
+                    movimento.setPeca(peca);
+                    inv.adicionar(new MoverParaBaixo(movimento, linha));
+                    inv.execute(new MoverParaBaixo(movimento, linha));
+                    Peca p = tabuleiro[coluna][y + movimento.getY()];
+                    tabuleiro[coluna][movimento.getY()] = movimento.getPeca();
 
+                    tabuleiro[coluna][linha] = fabricaPeca.criarPecaAgua();
+                    peca = null;
+                    notificarMudancaTabuleiro();
+                    zerarLinhaColuna();
+                }
                 break;
         }
     }
@@ -183,7 +221,5 @@ public class ControleJogoImp implements ControleJogo {
         }
         notificarMudancaTabuleiro();
     }
-
-  
 
 }

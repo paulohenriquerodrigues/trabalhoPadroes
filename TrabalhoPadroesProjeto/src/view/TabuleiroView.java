@@ -43,6 +43,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class TabuleiroView extends JFrame implements Observador, PontuacaoObserver, FlorObserver, RodadaObserver {
 
+
     class TabuleiroTableModel extends AbstractTableModel {
 
         @Override
@@ -150,6 +151,8 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
         pontuacaoControle = new PontuacaoController();
         pontuacaoControle.criarPontuacao();
         pontuacaoControle.addObservador(this);
+        
+        
 
         this.controleFlor = new FlorController();
         this.controleFlor.addObservador(this);
@@ -157,6 +160,11 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
 
         initComponents();
         this.controleFlor.carregaBotaoFlores();
+        
+        pontuacaoControle.modificarPontuacao("Amarelo", 0, 0);
+        pontuacaoControle.modificarPontuacao("Vermelho", 0, 0);
+        
+        
 
         this.rodadaControle = new RodadaController();
         rodadaControle.addObservador(this);
@@ -267,9 +275,13 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
         add(painel);
 
     }
+    @Override
+    public void modificarPontuacao(String corJogador, int pontos, int posicao) {
+    
+
+    }
 
     @Override
-
     public void mudouTabuleiro() {
         tabuleiro.repaint();
     }

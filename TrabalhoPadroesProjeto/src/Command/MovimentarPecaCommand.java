@@ -49,6 +49,20 @@ public class MovimentarPecaCommand {
         setY(y-1);
     }
     
+    public void moverBaixo(Peca peca, int y){
+        setY(y+1);
+    }
+    
+    public void moverEsquerda(Peca peca, int x){
+        setX(x-1);
+    }
+    
+    public void moverDireita(Peca peca, int x){
+        setX(x+1);
+    }
+    
+    
+    
     public void zerarDeslocamento() {
         setX(0);
         setY(0);

@@ -5,6 +5,7 @@
  */
 package Main;
 
+import Model.Jogador;
 import Server.Server;
 import view.ConfigJogadorView;
 
@@ -14,6 +15,7 @@ import view.ConfigJogadorView;
  */
 public class Main {
     public static void main(String[] args) {
+        Jogador.getInstance().setCor(null);
         ConfigJogadorView tela = new ConfigJogadorView();
         tela.setVisible(true);
         Server server = new Server();

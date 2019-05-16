@@ -14,5 +14,6 @@ import Model.Pontuacao;
 public interface PontuacaoObserver {
     
     void criarPontuacao();
+    void modificarPontuacao(String corJogador,int pontos, int posicao);
     
 }

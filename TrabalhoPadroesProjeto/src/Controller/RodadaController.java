@@ -99,9 +99,9 @@ public class RodadaController {
             Rodada.getInstance().setCorJardineiroSenior("Vermelho");
         }
         if (Jogador.getInstance().getCor().equals(Rodada.getInstance().getCorJardineiroJunior())) {
-            msg = "Você é o Jardineito Junior";
+            msg = "Você é o Jardineiro Junior";
         } else {
-            msg = "Você é o Jardineito Sênior";
+            msg = "Você é o Jardineiro Sênior";
         }
         observadores.forEach((obs) -> {
             obs.msgTipoJardineiro(msg);
