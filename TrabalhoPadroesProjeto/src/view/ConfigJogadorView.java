@@ -240,6 +240,7 @@ public class ConfigJogadorView extends javax.swing.JFrame implements JogadorObse
         try {
             TabuleiroView tabuleiro;
             tabuleiro = new TabuleiroView();
+            tabuleiro.setExtendedState(tabuleiro.MAXIMIZED_BOTH);
             tabuleiro.setVisible(true);
             this.setVisible(false);
         } catch (Exception ex) {

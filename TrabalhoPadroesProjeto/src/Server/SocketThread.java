@@ -1,8 +1,10 @@
 package Server;
 
+import Controller.RodadaController;
 import Model.Jogador;
 import Model.Mensagem;
 import Model.MensagemTipo;
+import Model.Rodada;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -18,8 +20,12 @@ import java.util.List;
 public class SocketThread extends Thread {
 
     private Socket socket;
+    
+    public SocketThread() {
+    }
 
     public SocketThread(Socket socket) {
+        
         this.socket = socket;
 
         if (socket != null) {
@@ -30,6 +36,7 @@ public class SocketThread extends Thread {
     @Override
     public void run() {
         try {
+            socket.setReuseAddress(true);
             ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
 
@@ -58,6 +65,8 @@ public class SocketThread extends Thread {
         switch (msg.getType()) {
             case verificaCor:
                 return informaCorAoAmigo();
+            case informaValorFlorSelecionada:
+                return setValorSelecionadoOutroJOgador(Integer.parseInt(msg.getMessage().toString()));
             default:
                 System.out.println("Nenhuma mensagem recebida" + msg.toString());
         }
@@ -75,6 +84,18 @@ public class SocketThread extends Thread {
         }
 
         return msg;
+    }
+
+    private Mensagem setValorSelecionadoOutroJOgador(int valor) {
+        if (Jogador.getInstance().getCor().equals("Amarelo")) {
+            Rodada.getInstance().setValorJogadorVermelho(valor);
+        } else {
+            Rodada.getInstance().setValorJogadorAmarelo(valor);
+
+        }
+
+
+        return null;
     }
 
 }

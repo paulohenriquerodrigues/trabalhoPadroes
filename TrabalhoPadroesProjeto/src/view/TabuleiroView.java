@@ -23,6 +23,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -133,6 +134,10 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
     private JPanel jPanelFlores;
     private JLabel valorFlorVermelha;
     private JLabel valorFlorAmarela;
+    
+    private int florSelecionada;
+    private int linha;
+    private int coluna;
 
     public TabuleiroView() throws Exception {
         this.controle = new ControleJogoImp();
@@ -217,12 +222,10 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    int linha = tabuleiro.getSelectedRow();
-                    int coluna = tabuleiro.getSelectedColumn();
+                    linha = tabuleiro.getSelectedRow();
+                    coluna = tabuleiro.getSelectedColumn();
                     try {
                         System.out.println(controle.getPecaTabuleiro(coluna, linha).getClass());
-                        System.out.println(linha);
-                        System.out.println(coluna);
                         controle.colunaLinhaSelecionada(coluna, linha);
 
                     } catch (Exception ex) {
@@ -297,8 +300,15 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    rodadaControle.escolherflor(Integer.parseInt(b.getText()));
-                    controleFlor.usarFlor(Integer.parseInt(b.getText()));
+                    try {
+                        rodadaControle.escolherflor(Integer.parseInt(b.getText()));
+                        florSelecionada = Integer.parseInt(b.getText());
+                       
+                    } catch (IOException ex) {
+                        Logger.getLogger(TabuleiroView.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(TabuleiroView.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
 
@@ -325,13 +335,40 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
 
     @Override
     public void FloresNãoEscolhidas(int valor) {
-        if (jogador.getCor().equals("Amarelo"));
-        {
-            valorFlorAmarela.setText(String.valueOf(valor));
-        } if(jogador.getCor().equals("Vermelho"));
-        {
-            valorFlorVermelha.setText(String.valueOf(valor));
-        }
+      if(jogador.getCor().equalsIgnoreCase("Amarelo")){
+      valorFlorAmarela.setText(String.valueOf(valor));
+      }else
+       if(jogador.getCor().equalsIgnoreCase("Vermelho")){
+      valorFlorVermelha.setText(String.valueOf(valor));
+
+       }  
+    }
+    
+    @Override
+    public void empate() {
+     JOptionPane.showMessageDialog(null, "Empate entre as flores selecionadas");
+    florSelecionada = -1;
+    valorFlorAmarela.setText("");
+    valorFlorVermelha.setText("");
+    }
+    
+    @Override
+    public void msgTipoJardineiro(String msg) {
+    JOptionPane.showMessageDialog(null, msg);
+    controleFlor.usarFlor(florSelecionada);
+    florSelecionada = -1;
+    valorFlorAmarela.setText("");
+    valorFlorVermelha.setText("");
+    }
+    
+    @Override
+    public void jardineiroJuniorEscura() {
+    controle.JardineiroJuniorEscura();
+    }
+    
+     @Override
+    public void jardineiroSeniorcolocaPeca() {
+        
     }
 
     public static void main(String[] args) throws Exception {

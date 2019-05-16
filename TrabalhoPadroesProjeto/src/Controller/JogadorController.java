@@ -52,7 +52,6 @@ public class JogadorController {
             Object obj;
             obj = input.readObject();
             Mensagem msgRetorno = (Mensagem) obj;
-            System.out.println(msgRetorno.getMessage().toString());
             if (msgRetorno.getMessage().equals("Amarelo")) {
                 observadorCor("Amarelo");
             } else if (msgRetorno.getMessage().equals("Vermelho")) {

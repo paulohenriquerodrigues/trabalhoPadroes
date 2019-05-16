@@ -16,5 +16,9 @@ public interface ControleJogo {
     void colunaLinhaSelecionada(int coluna, int linha);
 
     void addObservador(Observador obs);
+    
+    void JardineiroJuniorEscura();
+    
+    void jardineiroSeniorcolocaPeca(int coluna, int linha);
 
 }

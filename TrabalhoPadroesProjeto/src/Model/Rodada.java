@@ -13,8 +13,17 @@ public class Rodada {
     
     private int valorJogadorAmarelo;
     private int valorJogadorVermelho;
-    private String nomeJardineiroJunior;
-    private String nomeJardineiroSenior;
+    private String corJardineiroJunior;
+    private String corJardineiroSenior;
+    
+    private static Rodada instance;
+    
+    public synchronized static Rodada getInstance() {
+        if (instance == null) {
+            instance = new Rodada();
+        }
+        return instance;
+    }
 
     public int getValorJogadorAmarelo() {
         return valorJogadorAmarelo;
@@ -32,20 +41,20 @@ public class Rodada {
         this.valorJogadorVermelho = valorJogadorVermelho;
     }
 
-    public String getNomeJardineiroJunior() {
-        return nomeJardineiroJunior;
+    public String getCorJardineiroJunior() {
+        return corJardineiroJunior;
     }
 
-    public void setNomeJardineiroJunior(String nomeJardineiroJunior) {
-        this.nomeJardineiroJunior = nomeJardineiroJunior;
+    public void setCorJardineiroJunior(String corJardineiroJunior) {
+        this.corJardineiroJunior = corJardineiroJunior;
     }
 
-    public String getNomeJardineiroSenior() {
-        return nomeJardineiroSenior;
+    public String getCorJardineiroSenior() {
+        return corJardineiroSenior;
     }
 
-    public void setNomeJardineiroSenior(String nomeJardineiroSenior) {
-        this.nomeJardineiroSenior = nomeJardineiroSenior;
+    public void setCorJardineiroSenior(String corJardineiroSenior) {
+        this.corJardineiroSenior = corJardineiroSenior;
     }
     
     

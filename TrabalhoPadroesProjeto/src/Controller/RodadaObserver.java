@@ -13,6 +13,11 @@ public interface RodadaObserver {
     
     public void FloresEscolhidas(int valorJogadorAmarelo, int valorJogadorVermelho);
     public void FloresNãoEscolhidas(int valor);
+    public void empate();
+    public void msgTipoJardineiro(String msg);
+    public void jardineiroJuniorEscura();
+    public void jardineiroSeniorcolocaPeca();
+    
 
     
 }

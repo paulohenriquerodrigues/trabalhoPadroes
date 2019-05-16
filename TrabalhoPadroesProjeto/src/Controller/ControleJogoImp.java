@@ -11,6 +11,7 @@ import Command.CommandInvoker;
 import Command.MoverParaCima;
 import Command.MovimentarPecaCommand;
 import Model.Peca;
+import Model.Rodada;
 import Pecas.FabricaPeca;
 
 import java.util.ArrayList;
@@ -22,35 +23,34 @@ import javax.swing.Icon;
  * @author paulohenrique
  */
 public class ControleJogoImp implements ControleJogo {
-    
+
     private int x;
     private int y;
     private int coluna;
     private int linha;
     private int tecla;
-    
+
     private Peca[][] tabuleiro;
     Tabuleiro tabuleiroBuilder = new TabuleiroJogo();
-    
+
     private List<Observador> observadores = new ArrayList<>();
-    
+
     private MovimentarPecaCommand movimento = new MovimentarPecaCommand();
     private CommandInvoker inv = new CommandInvoker();
 
-    
     FabricaPeca fabricaPeca = new FabricaPeca();
-    
+
     @Override
-    public Peca getPecaTabuleiro(int x, int y){
-    return tabuleiro[x][y];
+    public Peca getPecaTabuleiro(int x, int y) {
+        return tabuleiro[x][y];
     }
 
     @Override
     public void inicializar() throws Exception {
-        
+
         tabuleiroBuilder.criarTabuleiro();
         tabuleiro = tabuleiroBuilder.retornaTabuleiroPeca();
-        
+
         tabuleiro[0][0] = new FabricaPeca().criarPecaVitoriaRegiaNormal();
         tabuleiro[0][1] = new FabricaPeca().criarPecaAgua();
         tabuleiro[0][2] = new FabricaPeca().criarPecaVitoriaRegiaNormal();
@@ -93,38 +93,38 @@ public class ControleJogoImp implements ControleJogo {
         this.tecla = keyCode;
         Peca peca = getPecaTabuleiro(coluna, linha);
         switch (tecla) {
-                            case 37:
-                                
-                                break;
-                            case 38:
-                              if(peca != null){  
-                               movimento.setPeca(peca);
-                               inv.adicionar(new MoverParaCima(movimento, linha));
-                               inv.execute(new MoverParaCima(movimento, linha));
-                               Peca p = tabuleiro[coluna][y + movimento.getY()];
-                               tabuleiro[coluna][movimento.getY()] = movimento.getPeca();
-                               
-                               tabuleiro [coluna][linha] = fabricaPeca.criarPecaAgua();
-                               peca = null;
-                               notificarMudancaTabuleiro();
-                               zerarLinhaColuna();
-                               
-                              }
-                                break;
-                            case 39:
-                                
-                                break;
-                            case 40:
-                                
-                                break;
-                        }
+            case 37:
+
+                break;
+            case 38:
+                if (peca != null) {
+                    movimento.setPeca(peca);
+                    inv.adicionar(new MoverParaCima(movimento, linha));
+                    inv.execute(new MoverParaCima(movimento, linha));
+                    Peca p = tabuleiro[coluna][y + movimento.getY()];
+                    tabuleiro[coluna][movimento.getY()] = movimento.getPeca();
+
+                    tabuleiro[coluna][linha] = fabricaPeca.criarPecaAgua();
+                    peca = null;
+                    notificarMudancaTabuleiro();
+                    zerarLinhaColuna();
+
+                }
+                break;
+            case 39:
+
+                break;
+            case 40:
+
+                break;
+        }
     }
 
     @Override
     public void addObservador(Observador obs) {
         observadores.add(obs);
     }
-    
+
     private void notificarMudancaTabuleiro() {
 
         observadores.forEach((obs) -> obs.mudouTabuleiro());
@@ -146,22 +146,44 @@ public class ControleJogoImp implements ControleJogo {
     public void setY(int y) {
         this.y = y;
     }
-    
-    public void zerarLinhaColuna(){
+
+    public void zerarLinhaColuna() {
         setY(0);
         setX(0);
     }
-    
+
     @Override
-    public void colunaLinhaSelecionada(int coluna, int linha){
-    this.linha = linha;
-    this.coluna = coluna;
+    public void colunaLinhaSelecionada(int coluna, int linha) {
+        this.linha = linha;
+        this.coluna = coluna;
     }
-    
-    
-    
-    
-    
+
+    public void JardineiroJuniorEscura() {
+        for (int linha = 0; linha < 5; linha++) {
+            for (int coluna = 0; coluna < 5; coluna++) {
+                if (tabuleiro[coluna][linha].getClass().toString().equals("class Pecas.PecaVitoriaRegiaEscura")) {
+                    if (Rodada.getInstance().getCorJardineiroJunior().equals("Amarelo")) {
+                        tabuleiro[coluna][linha] = new FabricaPeca().criarPecaVitoriaRegiaFlorAmarela();
+                    } else {
+                        tabuleiro[coluna][linha] = new FabricaPeca().criarPecaVitoriaRegiaFlorVermelha();
+
+                    }
+                }
+            }
+        }
+        notificarMudancaTabuleiro();
+    }
+
+    public void jardineiroSeniorcolocaPeca(int coluna, int linha) {
+        if (Rodada.getInstance().getCorJardineiroSenior().equals("Amarelo")) {
+            tabuleiro[coluna][linha] = new FabricaPeca().criarPecaVitoriaRegiaFlorAmarela();
+        } else {
+            tabuleiro[coluna][linha] = new FabricaPeca().criarPecaVitoriaRegiaFlorVermelha();
+
+        }
+        notificarMudancaTabuleiro();
+    }
+
   
 
 }

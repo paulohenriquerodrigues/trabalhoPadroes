@@ -7,6 +7,8 @@ package Pecas;
 
 import AbstractFactory.Agua;
 import AbstractFactory.VitoriaRegiaEscura;
+import AbstractFactory.VitoriaRegiaFlorAmarela;
+import AbstractFactory.VitoriaRegiaFlorVermelha;
 import AbstractFactory.VitoriaRegiaNormal;
 import AbstractFactory.VitoriaRegiaSapoAmarelo;
 import AbstractFactory.VitoriaRegiaSapoVermelho;
@@ -41,6 +43,18 @@ public class FabricaPeca extends AbstractFactory.FabricaPeca{
     public VitoriaRegiaSapoAmarelo criarPecaVitoriaRegiaSapoAmarelo() {
         return new PecaVitoriaRegiaSapoAmarelo();
     }
+
+    @Override
+    public VitoriaRegiaFlorAmarela criarPecaVitoriaRegiaFlorAmarela() {
+        return new PecaVitoriaRegiaFlorAmarela();
+    }
+
+    @Override
+    public VitoriaRegiaFlorVermelha criarPecaVitoriaRegiaFlorVermelha() {
+        return new PecaVitoriaRegiaFlorVermelha();
+    }
+    
+   
 
 
 }

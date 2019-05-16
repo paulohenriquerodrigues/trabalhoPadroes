@@ -16,6 +16,8 @@ public abstract class FabricaPeca {
     public abstract VitoriaRegiaEscura criarPecaVitoriaRegiaEscura();
     public abstract VitoriaRegiaSapoVermelho criarPecaVitoriaRegiaSapoVermelho();
     public abstract VitoriaRegiaSapoAmarelo criarPecaVitoriaRegiaSapoAmarelo();
+    public abstract VitoriaRegiaFlorAmarela criarPecaVitoriaRegiaFlorAmarela();
+    public abstract VitoriaRegiaFlorVermelha criarPecaVitoriaRegiaFlorVermelha();
     
     
     
