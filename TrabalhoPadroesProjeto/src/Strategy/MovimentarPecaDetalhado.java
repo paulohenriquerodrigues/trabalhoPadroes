@@ -102,16 +102,16 @@ public class MovimentarPecaDetalhado implements MovimentarPeca {
                 if (fim == false) {
                     for (int i = limite; i > x; i--) {
                         if (tabuleiro[i][y].getClass().toString().equals("class Pecas.PecaAgua") == false) {
-                            tabuleiro[i][y] = tabuleiro[i-1][y];
+                            tabuleiro[i][y] = tabuleiro[i - 1][y];
                         } else {
-                            tabuleiro[i][y] = tabuleiro[i-1][y];
+                            tabuleiro[i][y] = tabuleiro[i - 1][y];
 
                         }
                     }
+                    tabuleiro[x][y] = peca;
+                    tabuleiro[x - 1][y] = fabricaPeca.criarPecaAgua();
                 }
 
-                tabuleiro[x][y] = peca;
-                tabuleiro[x - 1][y] = fabricaPeca.criarPecaAgua();
                 break;
         }
         return tabuleiro;
