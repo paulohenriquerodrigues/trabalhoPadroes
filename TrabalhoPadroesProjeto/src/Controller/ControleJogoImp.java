@@ -18,6 +18,8 @@ import Model.Rodada;
 import Pecas.FabricaPeca;
 import Strategy.MovimentarPecaDetalhado;
 import Strategy.MovimentarPecaNormal;
+import Visitor.VerificarPontuacao;
+import Visitor.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +46,8 @@ public class ControleJogoImp implements ControleJogo {
     private CommandInvoker inv = new CommandInvoker();
 
     FabricaPeca fabricaPeca = new FabricaPeca();
+    
+    VerificarPontuacao verificaPontuacao = new VerificarPontuacao();
 
     @Override
     public Peca getPecaTabuleiro(int x, int y) {
@@ -110,7 +114,9 @@ public class ControleJogoImp implements ControleJogo {
                         } else {
                             tabuleiro = new MovimentarPecaDetalhado().movimentar(tabuleiro, "Esquerda", peca, movimento.getX(), linha);
                         }
-
+                        
+                        accept(verificaPontuacao);
+                        
                         peca = null;
                         notificarMudancaTabuleiro();
                         zerarLinhaColuna();
@@ -130,6 +136,10 @@ public class ControleJogoImp implements ControleJogo {
                         } else {
                             tabuleiro = new MovimentarPecaDetalhado().movimentar(tabuleiro, "Cima", peca, coluna, movimento.getY());
                         }
+                        
+                        accept(verificaPontuacao);
+                        
+                        
                         peca = null;
                         notificarMudancaTabuleiro();
                         zerarLinhaColuna();
@@ -150,6 +160,9 @@ public class ControleJogoImp implements ControleJogo {
                             tabuleiro = new MovimentarPecaDetalhado().movimentar(tabuleiro, "Direita", peca, movimento.getX(), linha);
                         }
 
+                        accept(verificaPontuacao);
+                        
+                        
                         peca = null;
                         notificarMudancaTabuleiro();
                         zerarLinhaColuna();
@@ -170,6 +183,9 @@ public class ControleJogoImp implements ControleJogo {
                             tabuleiro = new MovimentarPecaDetalhado().movimentar(tabuleiro, "Baixo", peca, coluna, movimento.getY());
                         }
 
+                        accept(verificaPontuacao);
+                        
+                        
                         peca = null;
                         notificarMudancaTabuleiro();
                         zerarLinhaColuna();
@@ -241,6 +257,12 @@ public class ControleJogoImp implements ControleJogo {
 
         }
         notificarMudancaTabuleiro();
+    }
+
+    public void accept(Visitor visitor) throws Exception {
+
+        visitor.visit(tabuleiro);
+
     }
 
 }
