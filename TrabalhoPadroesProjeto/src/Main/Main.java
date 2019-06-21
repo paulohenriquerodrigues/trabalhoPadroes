@@ -7,6 +7,7 @@ package Main;
 
 import Model.Jogador;
 import Server.Server;
+import java.io.IOException;
 import view.ConfigJogadorView;
 
 /**
@@ -14,12 +15,10 @@ import view.ConfigJogadorView;
  * @author paulohenrique
  */
 public class Main {
-    public static void main(String[] args) {
-        Jogador.getInstance().setCor(null);
+    public static void main(String[] args) throws IOException {
         ConfigJogadorView tela = new ConfigJogadorView();
         tela.setVisible(true);
-        Server server = new Server();
-        server.execute();
+
         
         
         

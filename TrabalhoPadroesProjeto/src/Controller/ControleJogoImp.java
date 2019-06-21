@@ -16,6 +16,8 @@ import Command.MovimentarPecaCommand;
 import Model.Peca;
 import Model.Rodada;
 import Pecas.FabricaPeca;
+import Strategy.MovimentarPecaDetalhado;
+import Strategy.MovimentarPecaNormal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,60 +101,79 @@ public class ControleJogoImp implements ControleJogo {
             case 37:
                 if (peca != null) {
                     movimento.setPeca(peca);
-                    inv.adicionar(new MoverParaEsquerda(movimento, coluna));
-                    inv.execute(new MoverParaEsquerda(movimento, coluna));
-                    Peca p = tabuleiro[x + movimento.getX()][linha];
-                    tabuleiro[movimento.getX()][linha] = movimento.getPeca();
+                    if (coluna > 0) {
+                        inv.adicionar(new MoverParaEsquerda(movimento, coluna));
+                        inv.execute(new MoverParaEsquerda(movimento, coluna));
 
-                    tabuleiro[coluna][linha] = fabricaPeca.criarPecaAgua();
-                    peca = null;
-                    notificarMudancaTabuleiro();
-                    zerarLinhaColuna();
+                        if (tabuleiro[movimento.getX()][linha].getClass().toString().equals("class Pecas.PecaAgua")) {
+                            tabuleiro = new MovimentarPecaNormal().movimentar(tabuleiro, "Esquerda", peca, movimento.getX(), linha);
+                        } else {
+                            tabuleiro = new MovimentarPecaDetalhado().movimentar(tabuleiro, "Esquerda", peca, movimento.getX(), linha);
+                        }
+
+                        peca = null;
+                        notificarMudancaTabuleiro();
+                        zerarLinhaColuna();
+                    }
 
                 }
                 break;
             case 38:
                 if (peca != null) {
                     movimento.setPeca(peca);
-                    inv.adicionar(new MoverParaCima(movimento, linha));
-                    inv.execute(new MoverParaCima(movimento, linha));
-                    Peca p = tabuleiro[coluna][y + movimento.getY()];
-                    tabuleiro[coluna][movimento.getY()] = movimento.getPeca();
+                    if (linha > 0) {
+                        inv.adicionar(new MoverParaCima(movimento, linha));
+                        inv.execute(new MoverParaCima(movimento, linha));
 
-                    tabuleiro[coluna][linha] = fabricaPeca.criarPecaAgua();
-                    peca = null;
-                    notificarMudancaTabuleiro();
-                    zerarLinhaColuna();
+                        if (tabuleiro[coluna][movimento.getY()].getClass().toString().equals("class Pecas.PecaAgua")) {
+                            tabuleiro = new MovimentarPecaNormal().movimentar(tabuleiro, "Cima", peca, coluna, movimento.getY());
+                        } else {
+                            tabuleiro = new MovimentarPecaDetalhado().movimentar(tabuleiro, "Cima", peca, coluna, movimento.getY());
+                        }
+                        peca = null;
+                        notificarMudancaTabuleiro();
+                        zerarLinhaColuna();
+                    }
 
                 }
                 break;
             case 39:
                 if (peca != null) {
                     movimento.setPeca(peca);
-                    inv.adicionar(new MoverParaDireita(movimento, coluna));
-                    inv.execute(new MoverParaDireita(movimento, coluna));
-                    Peca p = tabuleiro[x + movimento.getX()][linha];
-                    tabuleiro[movimento.getX()][linha] = movimento.getPeca();
+                    if (coluna < 4) {
+                        inv.adicionar(new MoverParaDireita(movimento, coluna));
+                        inv.execute(new MoverParaDireita(movimento, coluna));
 
-                    tabuleiro[coluna][linha] = fabricaPeca.criarPecaAgua();
-                    peca = null;
-                    notificarMudancaTabuleiro();
-                    zerarLinhaColuna();
+                        if (tabuleiro[movimento.getX()][linha].getClass().toString().equals("class Pecas.PecaAgua")) {
+                            tabuleiro = new MovimentarPecaNormal().movimentar(tabuleiro, "Direita", peca, movimento.getX(), linha);
+                        } else {
+                            tabuleiro = new MovimentarPecaDetalhado().movimentar(tabuleiro, "Direita", peca, movimento.getX(), linha);
+                        }
+
+                        peca = null;
+                        notificarMudancaTabuleiro();
+                        zerarLinhaColuna();
+                    }
 
                 }
                 break;
             case 40:
                 if (peca != null) {
                     movimento.setPeca(peca);
-                    inv.adicionar(new MoverParaBaixo(movimento, linha));
-                    inv.execute(new MoverParaBaixo(movimento, linha));
-                    Peca p = tabuleiro[coluna][y + movimento.getY()];
-                    tabuleiro[coluna][movimento.getY()] = movimento.getPeca();
+                    if (linha < 4) {
+                        inv.adicionar(new MoverParaBaixo(movimento, linha));
+                        inv.execute(new MoverParaBaixo(movimento, linha));
 
-                    tabuleiro[coluna][linha] = fabricaPeca.criarPecaAgua();
-                    peca = null;
-                    notificarMudancaTabuleiro();
-                    zerarLinhaColuna();
+                        if (tabuleiro[coluna][movimento.getY()].getClass().toString().equals("class Pecas.PecaAgua")) {
+                            tabuleiro = new MovimentarPecaNormal().movimentar(tabuleiro, "Baixo", peca, coluna, movimento.getY());
+                        } else {
+                            tabuleiro = new MovimentarPecaDetalhado().movimentar(tabuleiro, "Baixo", peca, coluna, movimento.getY());
+                        }
+
+                        peca = null;
+                        notificarMudancaTabuleiro();
+                        zerarLinhaColuna();
+                    }
                 }
                 break;
         }

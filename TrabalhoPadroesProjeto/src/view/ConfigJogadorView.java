@@ -19,7 +19,7 @@ public class ConfigJogadorView extends javax.swing.JFrame implements JogadorObse
 
     private JogadorController jogador;
 
-    public ConfigJogadorView() {
+    public ConfigJogadorView() throws IOException {
         initComponents();
         this.setLocationRelativeTo(null);
         jComboBoxCor.setEnabled(false);
@@ -235,7 +235,7 @@ public class ConfigJogadorView extends javax.swing.JFrame implements JogadorObse
 
     private void jButtonJogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJogarActionPerformed
         jogador.setCor(jComboBoxCor.getSelectedItem().toString());
-        System.out.println(jComboBoxCor.getSelectedItem().toString());
+        jogador.informaCor();
         
         try {
             TabuleiroView tabuleiro;
@@ -251,8 +251,12 @@ public class ConfigJogadorView extends javax.swing.JFrame implements JogadorObse
     }//GEN-LAST:event_jButtonJogarActionPerformed
 
     private void jButtonConfirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmaActionPerformed
-        jogador.AddJogador(jTextFieldNome.getText(), jTextFieldIP.getText(), null);
-        jogador.verificaCor();
+        try {
+            jogador.AddJogador(jTextFieldNome.getText(), jTextFieldIP.getText(), null);
+            jogador.verificaCor();
+        } catch (IOException ex) {
+            Logger.getLogger(ConfigJogadorView.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_jButtonConfirmaActionPerformed
 
@@ -297,7 +301,11 @@ public class ConfigJogadorView extends javax.swing.JFrame implements JogadorObse
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConfigJogadorView().setVisible(true);
+                try {
+                    new ConfigJogadorView().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(ConfigJogadorView.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

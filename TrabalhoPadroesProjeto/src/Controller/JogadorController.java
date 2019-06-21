@@ -8,6 +8,8 @@ package Controller;
 import Model.Jogador;
 import Model.Mensagem;
 import Model.MensagemTipo;
+import Model.Partida;
+import Model.PartidaProxy;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -27,53 +29,35 @@ import java.util.logging.Logger;
 public class JogadorController {
 
     private List<JogadorObserver> observadores;
+    private Socket socket;
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
+    Partida partida;
 
     public JogadorController() {
         observadores = new ArrayList<>();
+        this.socket = socket;
+        this.output = output;
+        this.input = input;
+        
+
     }
 
-    public void AddJogador(String nome, String ip, String cor) {
+    public void AddJogador(String nome, String ip, String cor) throws IOException {
         Jogador.getInstance().setCor(cor);
         Jogador.getInstance().setIpOutroJogador(ip);
         Jogador.getInstance().setNome(nome);
+        partida = new PartidaProxy(output, input);
     }
 
     public void verificaCor() {
-        try {
-            Socket socket = new Socket();
-            socket.connect(new InetSocketAddress(Jogador.getInstance().getIpOutroJogador(), 56000), 1000);
-            ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
+        String cor = partida.getCor();
+        observadorCor(cor);
 
-            Mensagem msg = new Mensagem(MensagemTipo.verificaCor, null);
-            output.writeObject(msg);
-            output.flush();
-
-            Object obj;
-            obj = input.readObject();
-            Mensagem msgRetorno = (Mensagem) obj;
-            if (msgRetorno.getMessage().equals("Amarelo")) {
-                observadorCor("Amarelo");
-            } else if (msgRetorno.getMessage().equals("Vermelho")) {
-                observadorCor("Vermelho");
-            } else {
-                observadorCor(null);
-            }
-
-            output.close();
-            input.close();
-            socket.close();
-        } catch (SocketTimeoutException ex) {
-            System.out.println("tempo");
-            observadorCor(null);
-        } catch (SocketException ex) {
-            observadorCor(null);
-
-        } catch (IOException ex) {
-            Logger.getLogger(JogadorController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(JogadorController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    }
+    
+    public void informaCor() {
+        partida.Setcor(Jogador.getInstance().getCor());
     }
 
     public void observadorCor(String cor) {
