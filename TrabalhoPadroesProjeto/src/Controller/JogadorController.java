@@ -8,7 +8,6 @@ package Controller;
 import Model.Jogador;
 import Model.Mensagem;
 import Model.MensagemTipo;
-import Model.Partida;
 import Model.PartidaProxy;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -21,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import Model.Partida;
 
 /**
  *
@@ -29,35 +29,26 @@ import java.util.logging.Logger;
 public class JogadorController {
 
     private List<JogadorObserver> observadores;
-    private Socket socket;
-    private ObjectOutputStream output;
-    private ObjectInputStream input;
-    Partida partida;
 
     public JogadorController() {
         observadores = new ArrayList<>();
-        this.socket = socket;
-        this.output = output;
-        this.input = input;
-        
-
     }
 
     public void AddJogador(String nome, String ip, String cor) throws IOException {
         Jogador.getInstance().setCor(cor);
         Jogador.getInstance().setIpOutroJogador(ip);
         Jogador.getInstance().setNome(nome);
-        partida = new PartidaProxy(output, input);
+        Jogador.getInstance().iniciarConexao();
     }
 
     public void verificaCor() {
-        String cor = partida.getCor();
+        String cor = Jogador.getInstance().getConexao().getPartida().getCor();
         observadorCor(cor);
 
     }
     
     public void informaCor() {
-        partida.Setcor(Jogador.getInstance().getCor());
+        Jogador.getInstance().getConexao().getPartida().Setcor(Jogador.getInstance().getCor());
     }
 
     public void observadorCor(String cor) {
@@ -75,7 +66,7 @@ public class JogadorController {
         Jogador.getInstance().setCor(cor);
     }
 
-    public String getCor() {
+    public String getCor(){
         return Jogador.getInstance().getCor();
     }
 

@@ -61,7 +61,7 @@ public class SocketThread extends Thread {
         }
     }
 
-    private Mensagem processaMensagem(Mensagem msg) {
+    private Mensagem processaMensagem(Mensagem msg) throws IOException {
         switch (msg.getType()) {
             case verificaCor:
                 return informaCorAoAmigo();
@@ -74,7 +74,7 @@ public class SocketThread extends Thread {
         return null;
     }
 
-    private Mensagem informaCorAoAmigo() {
+    private Mensagem informaCorAoAmigo() throws IOException {
         Mensagem msg;
         if (Jogador.getInstance().getCor() != null) {
             msg = new Mensagem(MensagemTipo.informaCor, Jogador.getInstance().getCor());
@@ -86,7 +86,7 @@ public class SocketThread extends Thread {
         return msg;
     }
 
-    private Mensagem setValorSelecionadoOutroJOgador(int valor) {
+    private Mensagem setValorSelecionadoOutroJOgador(int valor) throws IOException {
         if (Jogador.getInstance().getCor().equals("Amarelo")) {
             Rodada.getInstance().setValorJogadorVermelho(valor);
         } else {

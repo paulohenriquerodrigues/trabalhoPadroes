@@ -8,6 +8,8 @@ package Controller;
 import Model.Jogador;
 import Model.Mensagem;
 import Model.MensagemTipo;
+import Model.Partida;
+import Model.PartidaProxy;
 import Model.Peca;
 import Model.Rodada;
 import Pecas.FabricaPeca;
@@ -18,6 +20,8 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,8 +30,8 @@ import java.util.List;
 public class RodadaController {
 
     private List<RodadaObserver> observadores = new ArrayList<>();
-
-    public RodadaController() {
+   
+    public RodadaController(){
         Rodada.getInstance().setValorJogadorAmarelo(0);
         Rodada.getInstance().setValorJogadorVermelho(0);
     }
@@ -37,26 +41,12 @@ public class RodadaController {
     }
 
     public void escolherflor(int valor) throws IOException, ClassNotFoundException {
-        if (Jogador.getInstance().getCor().equals("Amarelo")) {
-            Rodada.getInstance().setValorJogadorAmarelo(valor);
-        } else if (Jogador.getInstance().getCor().equals("Vermelho")) {
-            Rodada.getInstance().setValorJogadorVermelho(valor);
-        }
-
-        Socket socket = new Socket();
-        socket.setReuseAddress(true);
-        socket.connect(new InetSocketAddress(Jogador.getInstance().getIpOutroJogador(), 56000), 1000);
-        ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
-        ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
-
-        Mensagem msg = new Mensagem(MensagemTipo.informaValorFlorSelecionada, valor);
-        output.writeObject(msg);
-        output.flush();
+        Jogador.getInstance().getConexao().getPartida().getValor(valor);
 
         floresEscolhidas();
     }
 
-    public void floresEscolhidas() {
+    public void floresEscolhidas() throws IOException{
         while (Rodada.getInstance().getValorJogadorAmarelo() < 1 || Rodada.getInstance().getValorJogadorVermelho() < 1) {
             observadores.forEach((obs) -> {
                 // mostra valor somente do jogador que selecionou, o outro não sabe o número
@@ -77,7 +67,7 @@ public class RodadaController {
 
     }
 
-    public void verificaEmpate() {
+    public void verificaEmpate() throws IOException {
         if (Rodada.getInstance().getValorJogadorAmarelo() == Rodada.getInstance().getValorJogadorVermelho()) {
             //Devolve flores;
             observadores.forEach((obs) -> {
@@ -89,7 +79,7 @@ public class RodadaController {
         }
     }
 
-    public void defineJardineiros() {
+    public void defineJardineiros() throws IOException {
         String msg;
         if (Rodada.getInstance().getValorJogadorAmarelo() > Rodada.getInstance().getValorJogadorVermelho()) {
             Rodada.getInstance().setCorJardineiroJunior("Vermelho");
@@ -124,6 +114,3 @@ public class RodadaController {
     }
     
     }
-
-
-

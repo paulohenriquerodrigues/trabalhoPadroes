@@ -5,7 +5,11 @@
  */
 package Model;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.Socket;
 
 /**
  *
@@ -16,7 +20,9 @@ public class Jogador {
     private String nome;
     private String cor;
     private String ipOutroJogador;
-
+    
+    Conexao conexao;
+    
     private static Jogador instance;
     
     public synchronized static Jogador getInstance() {
@@ -49,6 +55,14 @@ public class Jogador {
     public void setIpOutroJogador(String ipOutroJogador) {
         this.ipOutroJogador = ipOutroJogador;
     }
+
+    public void iniciarConexao() throws IOException{
+    conexao = new Conexao();
+    }
     
+    public Conexao getConexao() {
+        return conexao;
+    }
+
     
 }

@@ -17,20 +17,20 @@ import java.util.logging.Logger;
  *
  * @author paulohenrique
  */
-public class Jogador extends Thread {
+public class Jogador2 extends Thread {
 
     private Socket socket;
     private ObjectOutputStream output;
     private ObjectInputStream input;
 
     private String cor;
-    private Jogador oponente;
+    private Jogador2 oponente;
     private int valor;
     private int tipoJardineiro; //1-Junior 2-Senior
 
     Partida partida = new PartidaReal();
 
-    public Jogador(Socket socket) throws IOException {
+    public Jogador2(Socket socket) throws IOException {
         this.socket = socket;
         this.setValor(0);
 
@@ -52,11 +52,11 @@ public class Jogador extends Thread {
         this.cor = cor;
     }
 
-    public Jogador getOponente() {
+    public Jogador2 getOponente() {
         return oponente;
     }
 
-    public void setOponente(Jogador oponente) {
+    public void setOponente(Jogador2 oponente) {
         this.oponente = oponente;
     }
 
@@ -97,16 +97,16 @@ public class Jogador extends Thread {
                         }
                       
                     } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(Jogador.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(Jogador2.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                 }
             } catch (IOException ex) {
-                Logger.getLogger(Jogador.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Jogador2.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         } catch (IOException ex) {
-            Logger.getLogger(Jogador.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Jogador2.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

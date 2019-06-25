@@ -5,7 +5,8 @@
  */
 package Main;
 
-import Model.Jogador;
+import Model.Jogo;
+import Model.Entrada;
 import java.io.IOException;
 import java.net.ServerSocket;
 
@@ -14,23 +15,28 @@ import java.net.ServerSocket;
  * @author paulohenrique
  */
 public class Main {
+
     public static void main(String[] args) throws IOException, InterruptedException {
         ServerSocket serverSocket = new ServerSocket(56000);
-        serverSocket.setReuseAddress(true);
-        
+
         System.out.println("Server em execução");
+             
+        Jogo.getInstance().setJ1(serverSocket.accept());
+        Jogo.getInstance().getJ1().start();
+        System.out.println("j1 iniciou");
         
-        Jogador j1 = new Jogador(serverSocket.accept());
-        j1.start();
-        
-        Jogador j2 = new Jogador(serverSocket.accept());
-        j2.start();
-        
-        while (j1.isAlive()&& j2.isAlive()) {
-            	Thread.sleep(100);
-            }
-        
-        
+        Jogo.getInstance().setJ2(serverSocket.accept());
+        Jogo.getInstance().getJ2().start();
+        System.out.println("j2 iniciou");
+
+        while (Jogo.getInstance().getJ1().isAlive() && Jogo.getInstance().getJ2().isAlive()) {
+            Thread.sleep(100);
+        }
+
+        serverSocket.close();
+        System.out.println("Server finished...");
+        System.exit(0);
+
     }
-    
+
 }

@@ -15,6 +15,8 @@ import Controller.PontuacaoController;
 import Controller.PontuacaoObserver;
 import Controller.RodadaController;
 import Controller.RodadaObserver;
+import Model.ConexaoObserver;
+import Model.Jogador;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -41,7 +43,8 @@ import javax.swing.table.DefaultTableCellRenderer;
  *
  * @author paulohenrique
  */
-public class TabuleiroView extends JFrame implements Observador, PontuacaoObserver, FlorObserver, RodadaObserver {
+public class TabuleiroView extends JFrame implements Observador, PontuacaoObserver, FlorObserver, RodadaObserver, ConexaoObserver {
+ 
 
 
     class TabuleiroTableModel extends AbstractTableModel {
@@ -135,12 +138,14 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
     private JPanel jPanelFlores;
     private JLabel valorFlorVermelha;
     private JLabel valorFlorAmarela;
+    private JLabel mensagens;
     
     private int florSelecionada;
     private int linha;
     private int coluna;
 
     public TabuleiroView() throws Exception {
+        Jogador.getInstance().getConexao().addObserver(this);
         this.controle = new ControleJogoImp();
         this.controle.inicializar();
 
@@ -182,8 +187,9 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
         JPanel painel = new JPanel();
         painel.setLayout(new BorderLayout());
 
+        
         JPanel pontuacao = new JPanel();
-
+        
         pontuacoes = new JTable();
         pontuacoes.setModel(new PontuacaoTableModel());
         for (int x = 0; x < pontuacoes.getColumnModel().getColumnCount(); x++) {
@@ -212,6 +218,9 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
         JLabel florAmarela = new JLabel();
         florAmarela.setIcon(new ImageIcon("imagens/rosa-amarela.png"));
         valorFlorAmarela = new JLabel();
+        
+        mensagens = new JLabel();
+        mensagens.setText("Aguardando outro jogador");
 
         tabuleiro = new JTable();
         tabuleiro.setModel(new TabuleiroTableModel());
@@ -265,12 +274,14 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
         JPanelTabuleiro.add(jardineiroAmarelo);
         JPanelTabuleiro.add(florAmarela);
         JPanelTabuleiro.add(valorFlorAmarela);
+        JPanelTabuleiro.add("\n", mensagens);
 
         jPanelFlores = new JPanel();
         jPanelFlores.setBackground(Color.BLUE);
 
         painel.add(pontuacao, BorderLayout.NORTH);
         painel.add(JPanelTabuleiro);
+   
         painel.add(jPanelFlores, BorderLayout.SOUTH);
         add(painel);
 
@@ -312,21 +323,15 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    try {
-                        rodadaControle.escolherflor(Integer.parseInt(b.getText()));
-                        florSelecionada = Integer.parseInt(b.getText());
-                       
-                    } catch (IOException ex) {
-                        Logger.getLogger(TabuleiroView.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(TabuleiroView.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    jogador.verificaCor();
+                    florSelecionada = Integer.parseInt(b.getText());
                 }
             }
 
         });
 
         jPanelFlores.add(b);
+        
 
     }
 
@@ -347,13 +352,13 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
 
     @Override
     public void FloresNãoEscolhidas(int valor) {
-      if(jogador.getCor().equalsIgnoreCase("Amarelo")){
-      valorFlorAmarela.setText(String.valueOf(valor));
-      }else
-       if(jogador.getCor().equalsIgnoreCase("Vermelho")){
-      valorFlorVermelha.setText(String.valueOf(valor));
-
-       }  
+        if(jogador.getCor().equalsIgnoreCase("Amarelo")){
+            valorFlorAmarela.setText(String.valueOf(valor));
+        }else
+            if(jogador.getCor().equalsIgnoreCase("Vermelho")){
+                valorFlorVermelha.setText(String.valueOf(valor));
+                
+            }
     }
     
     @Override
@@ -380,6 +385,14 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
     
      @Override
     public void jardineiroSeniorcolocaPeca() {
+        
+    }
+    
+    @Override
+    public void mensagem(String msg) {
+        mensagens.setText(msg);
+        this.repaint();
+        this.validate();
         
     }
 

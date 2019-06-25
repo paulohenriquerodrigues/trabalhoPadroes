@@ -7,5 +7,8 @@ package Model;
 public enum MensagemTipo {
     verificaCor,
     informaCor,
-    informaValorFlorSelecionada
+    informaValorFlorSelecionada,
+    mensagem,
+    informaValorVermelho,
+    informaValorAmarelo
 }

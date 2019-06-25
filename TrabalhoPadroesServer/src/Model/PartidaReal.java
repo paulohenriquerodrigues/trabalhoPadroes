@@ -37,9 +37,9 @@ public class PartidaReal implements Partida {
         if(Jogo.getInstance().j2 == null){
            cor = null;
         } else if(Jogo.getInstance().j1.isAlive() && Jogo.getInstance().j2.isAlive()){
-            if (Jogo.getInstance().j1.getCor().equals("Amarelo") || Jogo.getInstance().j2.getCor().equals("Amarelo")) {
+            if (Jogo.getInstance().j1.getCor().equals("Amarelo")) {
                 cor = "Amarelo";
-            } else if (Jogo.getInstance().j1.getCor().equals("Vermelho") || Jogo.getInstance().j2.getCor().equals("Vermelho")) {
+            } else if (Jogo.getInstance().j1.getCor().equals("Vermelho")) {
                 cor = "Vermelho";
             } else {
                 cor = null;
@@ -48,4 +48,21 @@ public class PartidaReal implements Partida {
         return cor;
     }
 
+    @Override
+    public String enviarMensagem(String mensagem) {
+        return mensagem;
+        
+    }
+
+    @Override
+    public String getMensagem() {
+        return null;
+       
+    }
+
+    @Override
+    public void getValor(int valor) {
+        System.out.println(valor);
+    }    
+   
 }

@@ -7,6 +7,7 @@ package view;
 
 import Controller.JogadorController;
 import Controller.JogadorObserver;
+import Model.Jogador;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -236,7 +237,6 @@ public class ConfigJogadorView extends javax.swing.JFrame implements JogadorObse
     private void jButtonJogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJogarActionPerformed
         jogador.setCor(jComboBoxCor.getSelectedItem().toString());
         jogador.informaCor();
-        
         try {
             TabuleiroView tabuleiro;
             tabuleiro = new TabuleiroView();
@@ -254,6 +254,7 @@ public class ConfigJogadorView extends javax.swing.JFrame implements JogadorObse
         try {
             jogador.AddJogador(jTextFieldNome.getText(), jTextFieldIP.getText(), null);
             jogador.verificaCor();
+            Jogador.getInstance().getConexao().start();
         } catch (IOException ex) {
             Logger.getLogger(ConfigJogadorView.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -13,5 +13,8 @@ public interface Partida {
 
     void Setcor(String cor);
     String getCor();
+    String enviarMensagem(String mensagem);
+    String getMensagem();
+    void getValor(int valor);
 
 }
