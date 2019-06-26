@@ -77,6 +77,7 @@ public class ConfigJogadorView extends javax.swing.JFrame implements JogadorObse
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jTextFieldIP.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextFieldIP.setText("127.0.0.1");
 
         jLabelNome.setText("Informe seu nome");
 

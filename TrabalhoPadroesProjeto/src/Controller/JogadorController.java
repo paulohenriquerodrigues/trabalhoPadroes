@@ -50,7 +50,7 @@ public class JogadorController {
     public void informaCor() {
         Jogador.getInstance().getConexao().getPartida().Setcor(Jogador.getInstance().getCor());
     }
-
+    
     public void observadorCor(String cor) {
         for (JogadorObserver obs : observadores) {
             obs.cor(cor);

@@ -42,28 +42,15 @@ public class RodadaController {
 
     public void escolherflor(int valor) throws IOException, ClassNotFoundException {
         Jogador.getInstance().getConexao().getPartida().getValor(valor);
-
         floresEscolhidas();
     }
 
-    public void floresEscolhidas() throws IOException{
-        while (Rodada.getInstance().getValorJogadorAmarelo() < 1 || Rodada.getInstance().getValorJogadorVermelho() < 1) {
-            observadores.forEach((obs) -> {
-                // mostra valor somente do jogador que selecionou, o outro não sabe o número
-                if (Jogador.getInstance().getCor().equals("Amarelo")) {
-                    obs.FloresNãoEscolhidas(Rodada.getInstance().getValorJogadorAmarelo());
-                } else if (Jogador.getInstance().getCor().equals("Vermelho")) {
-                    obs.FloresNãoEscolhidas(Rodada.getInstance().getValorJogadorVermelho());
-                }
-            });
-
-        }
+    public void floresEscolhidas() throws IOException{ 
         // se ambos já escolheram a flor, mostra valor
         observadores.forEach((obs) -> {
             obs.FloresEscolhidas(Rodada.getInstance().getValorJogadorAmarelo(), Rodada.getInstance().getValorJogadorVermelho());
         });
 
-        verificaEmpate();
 
     }
 

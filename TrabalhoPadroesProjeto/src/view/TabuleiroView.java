@@ -15,6 +15,9 @@ import Controller.PontuacaoController;
 import Controller.PontuacaoObserver;
 import Controller.RodadaController;
 import Controller.RodadaObserver;
+import Decorator.Coachar;
+import Decorator.CoacharBase;
+import Decorator.CoacharView;
 import Model.ConexaoObserver;
 import Model.Jogador;
 import java.awt.BorderLayout;
@@ -44,8 +47,6 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author paulohenrique
  */
 public class TabuleiroView extends JFrame implements Observador, PontuacaoObserver, FlorObserver, RodadaObserver, ConexaoObserver {
- 
-
 
     class TabuleiroTableModel extends AbstractTableModel {
 
@@ -139,7 +140,7 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
     private JLabel valorFlorVermelha;
     private JLabel valorFlorAmarela;
     private JLabel mensagens;
-    
+
     private int florSelecionada;
     private int linha;
     private int coluna;
@@ -156,8 +157,6 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
         pontuacaoControle = new PontuacaoController();
         pontuacaoControle.criarPontuacao();
         pontuacaoControle.addObservador(this);
-        
-        
 
         this.controleFlor = new FlorController();
         this.controleFlor.addObservador(this);
@@ -165,11 +164,9 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
 
         initComponents();
         this.controleFlor.carregaBotaoFlores();
-        
+
         pontuacaoControle.modificarPontuacao("Amarelo", 0, 0);
         pontuacaoControle.modificarPontuacao("Vermelho", 0, 0);
-        
-        
 
         this.rodadaControle = new RodadaController();
         rodadaControle.addObservador(this);
@@ -187,9 +184,8 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
         JPanel painel = new JPanel();
         painel.setLayout(new BorderLayout());
 
-        
         JPanel pontuacao = new JPanel();
-        
+
         pontuacoes = new JTable();
         pontuacoes.setModel(new PontuacaoTableModel());
         for (int x = 0; x < pontuacoes.getColumnModel().getColumnCount(); x++) {
@@ -218,7 +214,7 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
         JLabel florAmarela = new JLabel();
         florAmarela.setIcon(new ImageIcon("imagens/rosa-amarela.png"));
         valorFlorAmarela = new JLabel();
-        
+
         mensagens = new JLabel();
         mensagens.setText("Aguardando outro jogador");
 
@@ -281,14 +277,14 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
 
         painel.add(pontuacao, BorderLayout.NORTH);
         painel.add(JPanelTabuleiro);
-   
+
         painel.add(jPanelFlores, BorderLayout.SOUTH);
         add(painel);
 
     }
+
     @Override
     public void modificarPontuacao(String corJogador, int pontos, int posicao) {
-    
 
     }
 
@@ -323,19 +319,23 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    jogador.verificaCor();
-                    florSelecionada = Integer.parseInt(b.getText());
+                    try {
+                        florSelecionada = Integer.parseInt(b.getText());
+                        rodadaControle.escolherflor(florSelecionada);
+                    } catch (IOException ex) {
+                        Logger.getLogger(TabuleiroView.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(TabuleiroView.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
 
         });
 
         jPanelFlores.add(b);
-        
 
     }
 
-    @Override
     public void removerFloresJPanel() {
         jPanelFlores.removeAll();
         jPanelFlores.repaint();
@@ -352,47 +352,52 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
 
     @Override
     public void FloresNãoEscolhidas(int valor) {
-        if(jogador.getCor().equalsIgnoreCase("Amarelo")){
+        if (jogador.getCor().equalsIgnoreCase("Amarelo")) {
             valorFlorAmarela.setText(String.valueOf(valor));
-        }else
-            if(jogador.getCor().equalsIgnoreCase("Vermelho")){
-                valorFlorVermelha.setText(String.valueOf(valor));
-                
-            }
+        } else if (jogador.getCor().equalsIgnoreCase("Vermelho")) {
+            valorFlorVermelha.setText(String.valueOf(valor));
+
+        }
     }
-    
+
     @Override
     public void empate() {
-     JOptionPane.showMessageDialog(null, "Empate entre as flores selecionadas");
-    florSelecionada = -1;
-    valorFlorAmarela.setText("");
-    valorFlorVermelha.setText("");
+        JOptionPane.showMessageDialog(null, "Empate entre as flores selecionadas");
+        florSelecionada = -1;
+        valorFlorAmarela.setText("");
+        valorFlorVermelha.setText("");
     }
-    
+
     @Override
     public void msgTipoJardineiro(String msg) {
-    JOptionPane.showMessageDialog(null, msg);
-    controleFlor.usarFlor(florSelecionada);
-    florSelecionada = -1;
-    valorFlorAmarela.setText("");
-    valorFlorVermelha.setText("");
+        JOptionPane.showMessageDialog(null, msg);
+        controleFlor.usarFlor(florSelecionada);
+        florSelecionada = -1;
+        valorFlorAmarela.setText("");
+        valorFlorVermelha.setText("");
     }
-    
+
     @Override
     public void jardineiroJuniorEscura() {
-    controle.JardineiroJuniorEscura();
+        controle.JardineiroJuniorEscura();
     }
-    
-     @Override
+
+    @Override
     public void jardineiroSeniorcolocaPeca() {
-        
+
     }
-    
+
     @Override
     public void mensagem(String msg) {
         mensagens.setText(msg);
         this.repaint();
         this.validate();
+
+    }
+
+    @Override
+    public void coachar() {
+        Coachar coachar = new CoacharBase();
         
     }
 

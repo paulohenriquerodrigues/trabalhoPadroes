@@ -83,7 +83,6 @@ public class Jogador2 extends Thread {
             try {
                 while (true) {
                     try {
-                        System.out.println(socket.getPort());
                         Object obj;
                         obj = input.readObject();
                         if (obj != null) {
@@ -91,12 +90,14 @@ public class Jogador2 extends Thread {
                             processaMensagem(msg);
                             if(processaMensagem(msg) != null){
                             output.writeObject(processaMensagem(msg));
-                       
+                                sleep(500);
                             }
 
                         }
                       
                     } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(Jogador2.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InterruptedException ex) {
                         Logger.getLogger(Jogador2.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
@@ -139,7 +140,7 @@ public class Jogador2 extends Thread {
                  if (this.getCor().equals("Vermelho")) {
                     partida.getValor(Integer.parseInt(msg.getMessage().toString()));
                 }
-                break;
+                 break;
             default:
         }
 

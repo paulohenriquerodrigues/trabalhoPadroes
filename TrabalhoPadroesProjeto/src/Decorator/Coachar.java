@@ -3,19 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package Decorator;
 
 /**
  *
  * @author paulohenrique
  */
-public interface Partida {
-
-    void Setcor(String cor);
-    String getCor();
-    String enviarMensagem(String mensagem);
-    String getMensagem();
-    void getValor(int valor);
-    void coachar(Jogador j);
-
+public interface Coachar {
+    
+    void chamaJFrameCoachar();
+    
 }

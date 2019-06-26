@@ -10,5 +10,7 @@ public enum MensagemTipo {
     informaValorFlorSelecionada,
     mensagem,
     informaValorVermelho,
-    informaValorAmarelo
+    informaValorAmarelo,
+    coachar,
+    informaCoachar
 }

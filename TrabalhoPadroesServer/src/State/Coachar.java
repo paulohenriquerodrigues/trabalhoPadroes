@@ -14,14 +14,17 @@ import java.io.IOException;
  */
 public class Coachar extends EstadoRodada {
 
-    public Coachar(Rodada r) throws IOException {
+    public Coachar(Rodada r) throws IOException, InterruptedException {
         super(r);
-        System.out.println("Coachar"); 
+        System.out.println("Coachar");
+        Jogo.getInstance().getJ1().coachar();
+        Thread.sleep(1000);
+        Jogo.getInstance().getJ2().coachar();
     }
 
     @Override
     public void proxEstado() {
-        
+
     }
-   
+
 }

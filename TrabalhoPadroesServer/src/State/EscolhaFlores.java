@@ -23,14 +23,13 @@ public class EscolhaFlores extends EstadoRodada {
             Thread.sleep(1000);
             Jogo.getInstance().getJ2().enviarMensagem("Escolha a Flor - 2 Cliques");
             
-            while(Jogo.getInstance().getJ1().getValor() < 1 ||
-                    Jogo.getInstance().getJ2().getValor() < 1){
-                //Aguarda ambos escolherem a flor
-            }
-            
+                        
             if(Jogo.getInstance().getJ1().getValor() == Jogo.getInstance().getJ2().getValor()){
-                r.setEstado(new Coachar(r));
+            r.setEstado(new Coachar(r));
+            }else{
+                System.out.println("entrou aqui");
             }
+
         } catch (InterruptedException ex) {
             Logger.getLogger(EscolhaFlores.class.getName()).log(Level.SEVERE, null, ex);
         }

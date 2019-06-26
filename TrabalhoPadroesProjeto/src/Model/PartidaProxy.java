@@ -88,18 +88,34 @@ public class PartidaProxy implements Partida {
 
     @Override
     public void getValor(int valor) {
+         Mensagem msgRetorno = null;
         try {
-            if (Jogador.getInstance().getCor().equals("Amarelo")) {
-                Object obj;
-                output.writeObject(new Mensagem(MensagemTipo.informaValorAmarelo, valor));
-            } else {
-                Object obj;
-                output.writeObject(new Mensagem(MensagemTipo.informaValorVermelho, valor));
+            Object obj;
+            if(Jogador.getInstance().getCor().equals("Amarelo")){
+            output.writeObject(new Mensagem(MensagemTipo.informaValorAmarelo, String.valueOf(valor)));
+            output.flush();
+            }else{
+            output.writeObject(new Mensagem(MensagemTipo.informaValorVermelho, String.valueOf(valor)));
+            output.flush();
             }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(PartidaProxy.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    }
+
+    @Override
+    public void coachar() {
+        try {
+            output.writeObject(new Mensagem(MensagemTipo.informaCoachar, null));
         } catch (IOException ex) {
             Logger.getLogger(PartidaProxy.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
-
+    
+    
 }
+
+    
+
+

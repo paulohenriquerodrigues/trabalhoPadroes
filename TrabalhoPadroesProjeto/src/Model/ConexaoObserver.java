@@ -12,5 +12,6 @@ package Model;
 public interface ConexaoObserver {
     
    void mensagem(String msg);
+   void coachar();
     
 }

@@ -16,5 +16,6 @@ public interface Partida {
     String enviarMensagem(String mensagem);
     String getMensagem();
     void getValor(int valor);
+    void coachar();
 
 }

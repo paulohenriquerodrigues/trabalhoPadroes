@@ -80,6 +80,10 @@ public class Conexao extends Thread {
                 break;
             case verificaCor:
                 jogador.verificaCor();
+                break;
+            case coachar:
+                Coachar();
+                break;    
             default:
         }
     }
@@ -91,6 +95,13 @@ public class Conexao extends Thread {
     public void Mensagens(String msg) {
         for (ConexaoObserver obs : observadores) {
             obs.mensagem(msg);
+        }
+
+    }
+    
+    public void Coachar () {
+        for (ConexaoObserver obs : observadores) {
+            obs.coachar();
         }
 
     }

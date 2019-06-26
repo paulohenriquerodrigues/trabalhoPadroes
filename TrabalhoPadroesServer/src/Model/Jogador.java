@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -27,6 +27,8 @@ public class Jogador extends Thread {
     private Jogador oponente;
     private int valor;
     private int tipoJardineiro; //1-Junior 2-Senior
+    
+    private boolean coachou;
 
     Partida partida = new PartidaReal();
 
@@ -76,6 +78,16 @@ public class Jogador extends Thread {
         this.tipoJardineiro = tipoJardineiro;
     }
 
+    public boolean isCoachou() {
+        return coachou;
+    }
+
+    public void setCoachou(boolean coachou) {
+        this.coachou = coachou;
+    }
+
+   
+    
     @Override
     public void run() {
         try {
@@ -83,19 +95,14 @@ public class Jogador extends Thread {
             try {
                 while (true) {
                     try {
-                        System.out.println(socket.getPort());
                         Object obj;
                         obj = input.readObject();
                         if (obj != null) {
                             Mensagem msg = (Mensagem) obj;
                             processaMensagem(msg);
-                            if(processaMensagem(msg) != null){
-                            output.writeObject(processaMensagem(msg));
-                       
-                            }
 
                         }
-                      
+
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(Jogador.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -116,11 +123,11 @@ public class Jogador extends Thread {
         this.input = new ObjectInputStream(socket.getInputStream());
 
     }
-    private Mensagem processaMensagem(Mensagem msg) throws IOException {
-        Mensagem retorno = null;
+
+    private void processaMensagem(Mensagem msg) throws IOException {
         switch (msg.getType()) {
             case verificaCor:
-                retorno = new Mensagem(MensagemTipo.informaCor, partida.getCor());
+                output.writeObject(new Mensagem(MensagemTipo.informaCor, partida.getCor()));
                 break;
             case informaCor:
                 partida.Setcor(msg.getMessage().toString());
@@ -132,28 +139,38 @@ public class Jogador extends Thread {
                 break;
             case informaValorAmarelo:
                 if (this.getCor().equals("Amarelo")) {
+                    this.setValor(Integer.parseInt(msg.getMessage().toString()));
                     partida.getValor(Integer.parseInt(msg.getMessage().toString()));
+                    System.out.println(msg.getMessage().toString());
+
                 }
                 break;
             case informaValorVermelho:
-                 if (this.getCor().equals("Vermelho")) {
+                if (this.getCor().equals("Vermelho")) {
+                    this.setValor(Integer.parseInt(msg.getMessage().toString()));
                     partida.getValor(Integer.parseInt(msg.getMessage().toString()));
+                    System.out.println(msg.getMessage().toString());
                 }
                 break;
+            case informaCoachar:
+                partida.coachar(this);
             default:
         }
-
-        return retorno;
     }
 
     private void iniciaJogo() throws IOException {
-            Rodada rodada = new Rodada();
+        Rodada rodada = new Rodada();
 
-        
     }
 
     public void enviarMensagem(String msg) throws IOException {
         output.writeObject(new Mensagem(MensagemTipo.mensagem, msg));
-       
+
     }
+
+    public void coachar() throws IOException {
+        output.writeObject(new Mensagem(MensagemTipo.coachar, null));
+
+    }
+
 }
