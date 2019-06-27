@@ -14,9 +14,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sql.rowset.serial.SerialJavaObject;
 
 /**
  *
@@ -40,7 +42,7 @@ public class Conexao extends Thread {
         socket = new Socket(Jogador.getInstance().getIpOutroJogador(), 56000);
         output = new ObjectOutputStream(socket.getOutputStream());
         input = new ObjectInputStream(socket.getInputStream());
-        
+
         partida = new PartidaProxy(output, input);
     }
 
@@ -59,10 +61,10 @@ public class Conexao extends Thread {
                 Object obj;
                 obj = input.readObject();
                 Mensagem msg = (Mensagem) obj;
-                if (msg.getType().toString().length()>0) {
+                if (msg != null) {
                     processaMensagem(msg);
                 }
-                
+
             }
         } catch (IOException ex) {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
@@ -83,7 +85,10 @@ public class Conexao extends Thread {
                 break;
             case coachar:
                 Coachar();
-                break;    
+                break;
+            case removerSapos:
+                removerSapos();
+                break;
             default:
         }
     }
@@ -98,11 +103,22 @@ public class Conexao extends Thread {
         }
 
     }
-    
-    public void Coachar () {
+
+    public void Coachar() {
         for (ConexaoObserver obs : observadores) {
             obs.coachar();
         }
 
+    }
+
+    public void removerSapos() {
+        for (ConexaoObserver obs : observadores) {
+            obs.removerSapos();
+        }
+    }
+
+    public void enviarTabuleiro(Peca[][] tabuleiro) throws IOException, InterruptedException {
+        //Aqui teria que passar o tabuleiro como parametro, porém para o jogo
+        output.writeObject(new Mensagem(MensagemTipo.tabuleiro, ""));
     }
 }

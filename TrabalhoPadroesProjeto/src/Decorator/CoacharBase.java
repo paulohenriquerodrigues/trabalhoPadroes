@@ -19,7 +19,7 @@ public class CoacharBase implements Coachar {
 
     @Override
     public void chamaJFrameCoachar() {
-        Coachar diferente = new CoacharView(this);
+        Coachar diferente = new CoacharFrame(this);
     }
 
     

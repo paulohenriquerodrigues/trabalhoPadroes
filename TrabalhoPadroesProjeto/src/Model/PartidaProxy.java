@@ -90,7 +90,6 @@ public class PartidaProxy implements Partida {
     public void getValor(int valor) {
          Mensagem msgRetorno = null;
         try {
-            Object obj;
             if(Jogador.getInstance().getCor().equals("Amarelo")){
             output.writeObject(new Mensagem(MensagemTipo.informaValorAmarelo, String.valueOf(valor)));
             output.flush();
@@ -108,6 +107,7 @@ public class PartidaProxy implements Partida {
     public void coachar() {
         try {
             output.writeObject(new Mensagem(MensagemTipo.informaCoachar, null));
+            output.flush();
         } catch (IOException ex) {
             Logger.getLogger(PartidaProxy.class.getName()).log(Level.SEVERE, null, ex);
         }

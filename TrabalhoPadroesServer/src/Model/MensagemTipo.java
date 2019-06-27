@@ -12,5 +12,7 @@ public enum MensagemTipo {
     informaValorVermelho,
     informaValorAmarelo,
     coachar,
-    informaCoachar
+    informaCoachar,
+    removerSapos,
+    tabuleiro
 }

@@ -17,7 +17,7 @@ import Controller.RodadaController;
 import Controller.RodadaObserver;
 import Decorator.Coachar;
 import Decorator.CoacharBase;
-import Decorator.CoacharView;
+import Decorator.CoacharFrame;
 import Model.ConexaoObserver;
 import Model.Jogador;
 import java.awt.BorderLayout;
@@ -322,6 +322,7 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
                     try {
                         florSelecionada = Integer.parseInt(b.getText());
                         rodadaControle.escolherflor(florSelecionada);
+                        controleFlor.usarFlor(florSelecionada);
                     } catch (IOException ex) {
                         Logger.getLogger(TabuleiroView.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (ClassNotFoundException ex) {
@@ -398,7 +399,14 @@ public class TabuleiroView extends JFrame implements Observador, PontuacaoObserv
     @Override
     public void coachar() {
         Coachar coachar = new CoacharBase();
-        
+
+    }
+
+    @Override
+    public void removerSapos() {
+       controle.removerSapos();
+       tabuleiro.repaint();
+       controle.enviarTabuleiro();
     }
 
     public static void main(String[] args) throws Exception {

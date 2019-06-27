@@ -13,6 +13,7 @@ import Command.MoverParaCima;
 import Command.MoverParaDireita;
 import Command.MoverParaEsquerda;
 import Command.MovimentarPecaCommand;
+import Model.Jogador;
 import Model.Peca;
 import Model.Rodada;
 import Pecas.FabricaPeca;
@@ -20,9 +21,12 @@ import Strategy.MovimentarPecaDetalhado;
 import Strategy.MovimentarPecaNormal;
 import Visitor.VerificarPontuacao;
 import Visitor.Visitor;
+import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 
 /**
@@ -46,7 +50,7 @@ public class ControleJogoImp implements ControleJogo {
     private CommandInvoker inv = new CommandInvoker();
 
     FabricaPeca fabricaPeca = new FabricaPeca();
-    
+
     VerificarPontuacao verificaPontuacao = new VerificarPontuacao();
 
     @Override
@@ -114,9 +118,9 @@ public class ControleJogoImp implements ControleJogo {
                         } else {
                             tabuleiro = new MovimentarPecaDetalhado().movimentar(tabuleiro, "Esquerda", peca, movimento.getX(), linha);
                         }
-                        
+
                         accept(verificaPontuacao);
-                        
+
                         peca = null;
                         notificarMudancaTabuleiro();
                         zerarLinhaColuna();
@@ -136,10 +140,9 @@ public class ControleJogoImp implements ControleJogo {
                         } else {
                             tabuleiro = new MovimentarPecaDetalhado().movimentar(tabuleiro, "Cima", peca, coluna, movimento.getY());
                         }
-                        
+
                         accept(verificaPontuacao);
-                        
-                        
+
                         peca = null;
                         notificarMudancaTabuleiro();
                         zerarLinhaColuna();
@@ -161,8 +164,7 @@ public class ControleJogoImp implements ControleJogo {
                         }
 
                         accept(verificaPontuacao);
-                        
-                        
+
                         peca = null;
                         notificarMudancaTabuleiro();
                         zerarLinhaColuna();
@@ -184,8 +186,7 @@ public class ControleJogoImp implements ControleJogo {
                         }
 
                         accept(verificaPontuacao);
-                        
-                        
+
                         peca = null;
                         notificarMudancaTabuleiro();
                         zerarLinhaColuna();
@@ -260,9 +261,42 @@ public class ControleJogoImp implements ControleJogo {
     }
 
     public void accept(Visitor visitor) throws Exception {
+        String tipoPeca;
+        if(Jogador.getInstance().getCor().equals("Amarelo")){
+        tipoPeca = "class Pecas.PecaVitoriaRegiaFlorAmarelo";
+        }else{
+        tipoPeca = "class Pecas.PecaVitoriaRegiaFlorVermelho";
+        }
+        visitor.visit(tabuleiro, tipoPeca);
 
-        visitor.visit(tabuleiro);
+    }
 
+    @Override
+    public void removerSapos() {
+
+        for (int l = 0; l < 5; l++) {
+            for (int c = 0; c < 5; c++) {
+                if (tabuleiro[l][c].getClass().toString().equals("class Pecas.PecaVitoriaRegiaSapoVermelho")) {
+                    tabuleiro[l][c] = new FabricaPeca().criarPecaVitoriaRegiaFlorVermelha();
+                }
+                if (tabuleiro[l][c].getClass().toString().equals("class Pecas.PecaVitoriaRegiaSapoAmarelo")) {
+                    tabuleiro[l][c] = new FabricaPeca().criarPecaVitoriaRegiaFlorAmarela();
+                }
+
+            }
+        }
+
+    }
+
+    @Override
+    public void enviarTabuleiro() {
+        try {
+            Jogador.getInstance().getConexao().enviarTabuleiro(tabuleiro);
+        } catch (IOException ex) {
+            Logger.getLogger(ControleJogoImp.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ControleJogoImp.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

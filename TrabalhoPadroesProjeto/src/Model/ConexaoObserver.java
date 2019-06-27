@@ -13,5 +13,6 @@ public interface ConexaoObserver {
     
    void mensagem(String msg);
    void coachar();
+   void removerSapos();
     
 }

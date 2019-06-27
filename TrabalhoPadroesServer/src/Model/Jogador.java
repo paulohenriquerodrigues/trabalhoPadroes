@@ -27,7 +27,7 @@ public class Jogador extends Thread {
     private Jogador oponente;
     private int valor;
     private int tipoJardineiro; //1-Junior 2-Senior
-    
+
     private boolean coachou;
 
     Partida partida = new PartidaReal();
@@ -86,8 +86,6 @@ public class Jogador extends Thread {
         this.coachou = coachou;
     }
 
-   
-    
     @Override
     public void run() {
         try {
@@ -105,6 +103,8 @@ public class Jogador extends Thread {
 
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(Jogador.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Jogador.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                 }
@@ -121,10 +121,10 @@ public class Jogador extends Thread {
     private void iniciar() throws IOException {
         this.output = new ObjectOutputStream(socket.getOutputStream());
         this.input = new ObjectInputStream(socket.getInputStream());
-
+        
     }
 
-    private void processaMensagem(Mensagem msg) throws IOException {
+    private void processaMensagem(Mensagem msg) throws IOException, InterruptedException {
         switch (msg.getType()) {
             case verificaCor:
                 output.writeObject(new Mensagem(MensagemTipo.informaCor, partida.getCor()));
@@ -142,7 +142,7 @@ public class Jogador extends Thread {
                     this.setValor(Integer.parseInt(msg.getMessage().toString()));
                     partida.getValor(Integer.parseInt(msg.getMessage().toString()));
                     System.out.println(msg.getMessage().toString());
-
+                    Jogo.getInstance().ambosEscolheram();
                 }
                 break;
             case informaValorVermelho:
@@ -150,21 +150,29 @@ public class Jogador extends Thread {
                     this.setValor(Integer.parseInt(msg.getMessage().toString()));
                     partida.getValor(Integer.parseInt(msg.getMessage().toString()));
                     System.out.println(msg.getMessage().toString());
+                    Jogo.getInstance().ambosEscolheram();
                 }
                 break;
             case informaCoachar:
                 partida.coachar(this);
+                break;
+            case tabuleiro:
+                
             default:
         }
     }
 
     private void iniciaJogo() throws IOException {
+        
+//        for(int i = 1; i <=8; i++){
         Rodada rodada = new Rodada();
+//        }
 
     }
 
     public void enviarMensagem(String msg) throws IOException {
         output.writeObject(new Mensagem(MensagemTipo.mensagem, msg));
+
 
     }
 
@@ -172,5 +180,9 @@ public class Jogador extends Thread {
         output.writeObject(new Mensagem(MensagemTipo.coachar, null));
 
     }
-
+    
+    public void removerSapos() throws IOException{
+        output.writeObject(new Mensagem(MensagemTipo.removerSapos, Jogo.getInstance().getTabuleiro()));
+    }
+    
 }

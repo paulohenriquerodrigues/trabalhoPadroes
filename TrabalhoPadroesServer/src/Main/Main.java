@@ -17,23 +17,24 @@ import java.net.ServerSocket;
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        ServerSocket serverSocket = new ServerSocket(56000);
-
+        Jogo.getInstance().iniciarServer();
+                
         System.out.println("Server em execução");
              
-        Jogo.getInstance().setJ1(serverSocket.accept());
+        Jogo.getInstance().setJ1(Jogo.getInstance().getServerSocket().accept());
         Jogo.getInstance().getJ1().start();
         System.out.println("j1 iniciou");
         
-        Jogo.getInstance().setJ2(serverSocket.accept());
+        Jogo.getInstance().setJ2(Jogo.getInstance().getServerSocket().accept());
         Jogo.getInstance().getJ2().start();
         System.out.println("j2 iniciou");
 
         while (Jogo.getInstance().getJ1().isAlive() && Jogo.getInstance().getJ2().isAlive()) {
-            Thread.sleep(100);
+            Jogo.getInstance().getJ1().sleep(1000);
+            Jogo.getInstance().getJ2().sleep(1000);
         }
 
-        serverSocket.close();
+        Jogo.getInstance().getServerSocket().close();
         System.out.println("Server finished...");
         System.exit(0);
 

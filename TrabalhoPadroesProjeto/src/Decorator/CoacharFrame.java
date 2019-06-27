@@ -15,9 +15,9 @@ import sun.swing.icon.SortArrowIcon;
  *
  * @author paulohenrique
  */
-public class CoacharView extends CoacharDecorator {
+public class CoacharFrame extends CoacharDecorator {
 
-    public CoacharView(Coachar coachar) {
+    public CoacharFrame(Coachar coachar) {
         super(coachar);
         this.chamaJFrameCoachar();
     }
@@ -28,7 +28,7 @@ public class CoacharView extends CoacharDecorator {
         Color [] cores = {Color.blue, Color.red, Color.GREEN};
         int i = new Random().nextInt(2);
         i = i +1;
-        JFrameCoachar jframe = new JFrameCoachar(cores[i]);
+        ViewCoachar jframe = new ViewCoachar(cores[i]);
         jframe.setVisible(true);
             
         }

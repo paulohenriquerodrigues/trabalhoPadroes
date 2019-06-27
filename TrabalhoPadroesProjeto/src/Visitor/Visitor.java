@@ -13,6 +13,6 @@ import Model.Peca;
  */
 public interface Visitor {
     
-    void visit(Peca [][] tabuleiro);
+    void visit(Peca [][] tabuleiro, String cor);
     
 }

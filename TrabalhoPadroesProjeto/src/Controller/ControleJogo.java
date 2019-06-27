@@ -20,5 +20,9 @@ public interface ControleJogo {
     void JardineiroJuniorEscura();
     
     void jardineiroSeniorcolocaPeca(int coluna, int linha);
+    
+    void removerSapos();
+    
+    void enviarTabuleiro();
 
 }

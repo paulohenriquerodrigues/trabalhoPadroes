@@ -75,12 +75,16 @@ public class PartidaReal implements Partida {
                 Jogo.getInstance().j1.enviarMensagem("Você foi o Primeiro a Coaxar");
                 Thread.sleep(1000);
                 Jogo.getInstance().j2.enviarMensagem("Outro Jogador Coaxou Primeiro");
+                
+                Jogo.getInstance().alguemCoachou();
             } else {
                 Jogo.getInstance().j2.setCoachou(true);
                 
                 Jogo.getInstance().j2.enviarMensagem("Você foi o Primeiro a Coaxar");
                 Thread.sleep(1000);
                 Jogo.getInstance().j1.enviarMensagem("Outro Jogador Coaxou Primeiro");
+                
+                Jogo.getInstance().alguemCoachou();
             }
         } catch (IOException ex) {
             Logger.getLogger(PartidaReal.class.getName()).log(Level.SEVERE, null, ex);
@@ -90,5 +94,7 @@ public class PartidaReal implements Partida {
         }
 
     }
+    
+    
 
 }
